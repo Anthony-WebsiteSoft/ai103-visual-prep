@@ -1,0 +1,1582 @@
+﻿<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>AI-103 Visual Prep</title></head><body><style>
+  /* ============ tokens ============ */
+  :root{
+    --page:#f3f5f9; --surface:#fbfcfe; --surface2:#edf1f7; --ink:#0e1420; --ink2:#4a5468; --muted:#6f7a90;
+    --line:#e2e7f0; --line2:#cfd7e6; --accent:#1d4fae; --accent-ink:#ffffff; --accent-soft:#e4edfb;
+    --good:#0ca30c; --good-text:#006300; --bad:#d03b3b; --warnc:#fab219;
+    --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4;
+    --grid-line:rgba(29,79,174,.06);
+    --shadow:0 1px 2px rgba(14,20,32,.04),0 4px 18px rgba(14,20,32,.06);
+    --font-ui:"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,sans-serif;
+    --font-display:"Segoe UI Variable Display","Segoe UI",system-ui,sans-serif;
+    --font-mono:"Cascadia Mono","Cascadia Code",Consolas,ui-monospace,monospace;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --page:#0b0f16; --surface:#121826; --surface2:#0e141f; --ink:#eef2f9; --ink2:#b3bdcf; --muted:#8791a3;
+      --line:#242e40; --line2:#313d57; --accent:#7fb0fa; --accent-ink:#0b1526; --accent-soft:#17233b;
+      --good:#0ca30c; --good-text:#3fbf3f; --bad:#e05252; --warnc:#fab219;
+      --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181;
+      --grid-line:rgba(127,176,250,.055);
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 22px rgba(0,0,0,.35);
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --page:#0b0f16; --surface:#121826; --surface2:#0e141f; --ink:#eef2f9; --ink2:#b3bdcf; --muted:#8791a3;
+    --line:#242e40; --line2:#313d57; --accent:#7fb0fa; --accent-ink:#0b1526; --accent-soft:#17233b;
+    --good:#0ca30c; --good-text:#3fbf3f; --bad:#e05252; --warnc:#fab219;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181;
+    --grid-line:rgba(127,176,250,.055);
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 22px rgba(0,0,0,.35);
+    color-scheme:dark;
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--page);color:var(--ink);font-family:var(--font-ui);font-size:15px;line-height:1.45;
+    -webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  button{font-family:inherit;font-size:inherit;color:inherit;background:none;border:none;cursor:pointer;padding:0}
+  button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+  h1,h2,h3,h4{font-family:var(--font-display);margin:0;text-wrap:balance}
+
+  .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+
+  /* ============ header ============ */
+  .top{padding:22px 0 12px}
+  .top .wrap{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap}
+  .brand h1{font-size:22px;font-weight:700;letter-spacing:-.01em}
+  .brand .kicker{font-family:var(--font-mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+  .spacer{flex:1}
+  .statchips{display:flex;gap:8px;flex-wrap:wrap}
+  .statchip{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 11px;text-align:left}
+  .statchip .v{font-family:var(--font-display);font-weight:700;font-size:15px;font-variant-numeric:tabular-nums}
+  .statchip .k{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  #themeBtn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 12px;
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.05em;color:var(--ink2)}
+  #themeBtn:hover{border-color:var(--line2)}
+
+  /* ============ tabs ============ */
+  .tabs{position:sticky;top:0;z-index:30;background:var(--page);border-bottom:1px solid var(--line);margin-top:6px}
+  .tabs .wrap{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+  .tabs .wrap::-webkit-scrollbar{display:none}
+  .tab{font-family:var(--font-mono);font-size:12px;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--muted);padding:11px 14px 9px;border-bottom:2px solid transparent;white-space:nowrap}
+  .tab:hover{color:var(--ink2)}
+  .tab.active{color:var(--ink);border-bottom-color:var(--accent)}
+  .tab .n{display:inline-block;margin-right:6px;color:var(--accent);font-weight:700}
+
+  main{padding:22px 0 10px}
+  section.view{display:none}
+  section.view.active{display:block}
+
+  /* ============ shared components ============ */
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);
+    padding:18px 20px;margin-bottom:16px}
+  .eyebrow{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .eyebrow .dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;vertical-align:baseline}
+  h2.title{font-size:19px;font-weight:700;margin-bottom:4px}
+  h3.sub{font-size:15px;font-weight:650;margin:14px 0 8px}
+  .lede{color:var(--ink2);max-width:64ch;margin:2px 0 0}
+  ul.short{margin:8px 0 2px;padding-left:0;list-style:none}
+  ul.short li{padding:4px 0 4px 20px;position:relative;color:var(--ink2)}
+  ul.short li::before{content:"▸";position:absolute;left:2px;color:var(--accent);font-size:12px;top:6px}
+  ul.short li strong{color:var(--ink);font-weight:650}
+  .chip{display:inline-block;font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;
+    background:var(--surface2);border:1px solid var(--line);border-radius:6px;padding:3px 8px;margin:2px 4px 2px 0;color:var(--ink2)}
+  .chip.acc{background:var(--accent-soft);border-color:transparent;color:var(--accent);font-weight:600}
+  .callout{border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0;
+    padding:10px 14px;margin-top:12px;color:var(--ink2)}
+  .callout .tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700;display:block;margin-bottom:3px}
+  .srcline{margin-top:12px;font-size:12.5px;color:var(--muted)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media (max-width:820px){.grid2,.grid3{grid-template-columns:1fr}}
+
+  table.tbl{width:100%;border-collapse:collapse;margin:8px 0 2px;font-size:13.5px}
+  .tbl th{font-family:var(--font-mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);
+    text-align:left;padding:6px 10px;border-bottom:1px solid var(--line2)}
+  .tbl td{padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink2)}
+  .tbl td:first-child{color:var(--ink);font-weight:600;white-space:nowrap}
+  .tbl tr:last-child td{border-bottom:none}
+  .tblwrap{overflow-x:auto}
+
+  /* ============ MAP tab ============ */
+  .exambanner{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+  .ebox{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .ebox .v{font-family:var(--font-display);font-size:20px;font-weight:750;letter-spacing:-.01em}
+  .ebox .k{font-family:var(--font-mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+  .retire{border:1px solid var(--line);border-left:3px solid var(--warnc);background:var(--surface);border-radius:10px;
+    padding:10px 14px;margin-bottom:16px;color:var(--ink2);font-size:13.5px}
+  .retire strong{color:var(--ink)}
+
+  .blueprint{background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);
+    background-size:22px 22px;border-radius:10px;padding:16px;border:1px solid var(--line)}
+  .mapbox{border:1.5px solid var(--line2);border-radius:10px;padding:12px;position:relative;margin-top:14px}
+  .mapbox>.boxlabel{position:absolute;top:-9px;left:12px;background:var(--surface);padding:0 8px;
+    font-family:var(--font-mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+  .mapbox.res{border-color:var(--accent);border-style:solid}
+  .mapbox.res>.boxlabel{color:var(--accent);font-weight:700}
+  .mapbox.sub{border-style:dashed}
+  .accessrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .accessrow .lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:2px}
+  .apill{background:var(--surface);border:1px solid var(--line2);border-radius:999px;padding:5px 12px;font-size:12.5px;color:var(--ink2)}
+  .apill b{color:var(--ink);font-weight:650}
+  .projrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 2px}
+  .projchip{font-family:var(--font-mono);font-size:11px;border:1px dashed var(--line2);border-radius:6px;padding:3px 9px;color:var(--muted)}
+  .projchip.def{border-style:solid;color:var(--ink2);font-weight:600}
+  .assetgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+  @media (max-width:720px){.assetgrid{grid-template-columns:1fr}}
+  .asset{background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:11px 13px;border-top-width:3px}
+  .asset h4{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
+  .asset p{margin:0;font-size:13px;color:var(--ink2)}
+  .asset p b{color:var(--ink)}
+  .mapnote{margin-top:12px;font-size:12.5px;color:var(--muted)}
+
+  .verbrow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  @media (max-width:900px){.verbrow{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:480px){.verbrow{grid-template-columns:1fr}}
+  .verb{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 13px;border-top:3px solid var(--line)}
+  .verb .v{font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:.08em}
+  .verb .nm{font-weight:650;font-size:13.5px;margin:4px 0 3px}
+  .verb .ex{font-size:12.5px;color:var(--muted)}
+
+  .decide{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media (max-width:900px){.decide{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:480px){.decide{grid-template-columns:1fr}}
+  .dcard{background:var(--surface2);border:1px solid var(--line);border-radius:9px;padding:11px 13px;font-size:13px}
+  .dcard .if{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .dcard .then{font-weight:650;color:var(--ink);margin-top:4px}
+  .dcard .why{color:var(--muted);font-size:12px;margin-top:3px}
+
+  /* ============ TOPICS ============ */
+  .topic{scroll-margin-top:70px}
+  .topichead{display:flex;align-items:flex-start;gap:12px}
+  .topichead .grow{flex:1}
+  .seenbtn{border:1px solid var(--line2);border-radius:8px;padding:6px 12px;font-size:12.5px;color:var(--ink2);white-space:nowrap}
+  .seenbtn.on{background:var(--accent-soft);border-color:transparent;color:var(--accent);font-weight:650}
+  .paircols{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+  @media (max-width:720px){.paircols{grid-template-columns:1fr}}
+  .paircol{border:1px solid var(--line);border-radius:10px;padding:10px}
+  .paircol .ph{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;text-align:center;color:var(--muted);margin-bottom:8px}
+  .ptile{background:var(--surface2);border-radius:8px;padding:8px 11px;margin-top:6px}
+  .ptile b{display:block;font-size:13.5px}
+  .ptile span{font-size:12.5px;color:var(--muted)}
+  .stack{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+  .layer{border:1px solid var(--line);border-radius:9px;padding:9px 13px;background:var(--surface2);font-size:13px;color:var(--ink2)}
+  .layer b{color:var(--ink)}
+  .layer .lt{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block}
+
+  /* ============ FLASHCARDS ============ */
+  .deckchips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .deckchip{border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:12.5px;color:var(--ink2);background:var(--surface)}
+  .deckchip .cnt{font-family:var(--font-mono);font-size:10.5px;color:var(--muted);margin-left:5px;font-variant-numeric:tabular-nums}
+  .deckchip.on{border-color:var(--accent);color:var(--accent);font-weight:650;background:var(--accent-soft)}
+  .flashwrap{max-width:600px;margin:0 auto}
+  .flash{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
+    min-height:250px;padding:26px;display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;cursor:pointer;transition:transform .15s ease}
+  @media (prefers-reduced-motion:reduce){.flash{transition:none}}
+  .flash:active{transform:scale(.99)}
+  .flash .fe{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+  .flash .front{font-family:var(--font-display);font-size:24px;font-weight:750;letter-spacing:-.01em}
+  .flash .back{font-size:16.5px;color:var(--ink2);line-height:1.55;max-width:46ch}
+  .flash .back b{color:var(--ink)}
+  .flash .hint{margin-top:16px;font-size:12px;color:var(--muted)}
+  .fbtns{display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+  .fbtn{border:1px solid var(--line2);border-radius:9px;padding:9px 18px;font-size:14px;color:var(--ink2);background:var(--surface)}
+  .fbtn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:650}
+  .fbtn:hover{border-color:var(--accent)}
+  .fmeta{display:flex;justify-content:space-between;align-items:center;margin-top:12px;
+    font-family:var(--font-mono);font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .fdone{text-align:center;padding:30px 10px;color:var(--ink2)}
+
+  /* ============ QUIZ ============ */
+  .qwrap{max-width:680px;margin:0 auto}
+  .qopt{display:block;width:100%;text-align:left;border:1px solid var(--line2);border-radius:10px;
+    padding:11px 14px;margin-top:9px;background:var(--surface);color:var(--ink2);font-size:14.5px}
+  .qopt:hover{border-color:var(--accent)}
+  .qopt.correct{border-color:var(--good);background:color-mix(in srgb,var(--good) 9%,var(--surface));color:var(--ink)}
+  .qopt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 8%,var(--surface));color:var(--ink)}
+  .qopt.dim{opacity:.55}
+  .qopt .mark{font-weight:700;margin-right:6px}
+  .qwhy{margin-top:12px;border-left:3px solid var(--line2);padding:8px 13px;color:var(--ink2);font-size:13.5px}
+  .qwhy.ok{border-color:var(--good)}
+  .qwhy.no{border-color:var(--bad)}
+  .qwhy .verdict{font-weight:700;display:block;margin-bottom:2px}
+  .qwhy.ok .verdict{color:var(--good-text)}
+  .qwhy.no .verdict{color:var(--bad)}
+  .qprog{font-family:var(--font-mono);font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .qtopic{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .qtext{font-size:17.5px;font-weight:650;margin-top:6px;line-height:1.4}
+  .resultbars{margin-top:14px}
+  .rbar{display:grid;grid-template-columns:150px 1fr 52px;gap:10px;align-items:center;margin-top:8px;font-size:13px}
+  @media (max-width:520px){.rbar{grid-template-columns:110px 1fr 48px}}
+  .rbar .nm{color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rbar .track{background:var(--surface2);border-radius:4px;height:12px;overflow:hidden}
+  .rbar .fill{height:100%;border-radius:2px 4px 4px 2px}
+  .rbar .val{font-family:var(--font-mono);font-size:11px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+  .missitem{border:1px solid var(--line);border-radius:9px;padding:10px 13px;margin-top:8px;font-size:13.5px;color:var(--ink2)}
+  .missitem b{color:var(--ink)}
+  .bignum{font-family:var(--font-display);font-size:44px;font-weight:800;letter-spacing:-.02em;line-height:1}
+  .bignum small{font-size:18px;font-weight:600;color:var(--muted)}
+
+  /* ============ EXAM ============ */
+  .dombar{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:12px 14px;margin-top:10px;cursor:pointer}
+  .dombar:hover{border-color:var(--line2)}
+  .domhead{display:flex;align-items:center;gap:10px}
+  .domhead .dot{width:10px;height:10px;border-radius:3px;flex:none}
+  .domhead .nm{font-weight:650;flex:1}
+  .domhead .rng{font-family:var(--font-mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .domhead .caret{color:var(--muted);font-size:11px}
+  .domtrack{background:var(--surface2);border-radius:4px;height:14px;margin-top:9px;overflow:hidden}
+  .domfill{height:100%;border-radius:2px 4px 4px 2px}
+  .domskills{display:none;margin-top:10px;padding-top:8px;border-top:1px dashed var(--line)}
+  .dombar.open .domskills{display:block}
+  .dombar.open .caret{transform:rotate(90deg)}
+  .roadmap{counter-reset:step;margin-top:6px}
+  .rstep{display:flex;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line);align-items:baseline}
+  .rstep:last-child{border-bottom:none}
+  .rstep .no{font-family:var(--font-mono);font-size:11px;color:var(--muted);flex:none;width:22px;font-variant-numeric:tabular-nums}
+  .rstep .t{color:var(--ink2)}
+  .rstep.here .t{color:var(--ink);font-weight:650}
+  .herechip{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.08em;background:var(--accent);color:var(--accent-ink);
+    border-radius:5px;padding:2px 7px;margin-left:8px;text-transform:uppercase;font-weight:700}
+
+  /* ============ CRAM ============ */
+  .cramgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:820px){.cramgrid{grid-template-columns:1fr}}
+  .cram h3{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0 0 7px}
+  .cram .card{margin-bottom:0}
+  .cram ul.short li{padding-top:2px;padding-bottom:2px;font-size:13px}
+  .cram .tbl td,.cram .tbl th{padding:4px 8px;font-size:12.5px}
+
+  footer{border-top:1px solid var(--line);margin-top:26px;padding:18px 0 30px;color:var(--muted);font-size:12.5px}
+  footer .wrap{display:flex;flex-direction:column;gap:6px}
+
+  @media print{
+    .top,.tabs,footer,.noprint{display:none !important}
+    section.view{display:none !important}
+    #tab-cram{display:block !important}
+    body{background:#fff;color:#000;font-size:11px}
+    .card{box-shadow:none;border-color:#bbb;break-inside:avoid;padding:10px 12px;margin-bottom:8px}
+    .cramgrid{gap:8px}
+  }
+</style>
+
+<div id="app">
+  <header class="top">
+    <div class="wrap">
+      <div class="brand">
+        <div class="kicker">Azure AI · Exam AI-103 · Visual prep</div>
+        <h1>AI-103 Visual Prep</h1>
+      </div>
+      <div class="spacer"></div>
+      <div class="statchips">
+        <div class="statchip"><div class="v" id="stModules">0/30</div><div class="k">Modules done</div></div>
+        <div class="statchip"><div class="v" id="stCards">0/45</div><div class="k">Cards known</div></div>
+        <div class="statchip"><div class="v" id="stQuiz">—</div><div class="k">Quiz best</div></div>
+      </div>
+      <button id="themeBtn" title="Cycle theme">AUTO</button>
+    </div>
+  </header>
+
+  <nav class="tabs"><div class="wrap" role="tablist">
+    <button class="tab active" data-tab="map"><span class="n">1</span>Map</button>
+    <button class="tab" data-tab="topics"><span class="n">2</span>Topics</button>
+    <button class="tab" data-tab="cards"><span class="n">3</span>Flashcards</button>
+    <button class="tab" data-tab="quiz"><span class="n">4</span>Quiz</button>
+    <button class="tab" data-tab="exam"><span class="n">5</span>Exam</button>
+    <button class="tab" data-tab="cram"><span class="n">6</span>Cram sheet</button>
+  </div></nav>
+
+  <main class="wrap">
+
+    <!-- ================= MAP ================= -->
+    <section class="view active" id="tab-map">
+      <div class="exambanner">
+        <div class="ebox"><div class="v">AI-103</div><div class="k">Your exam</div></div>
+        <div class="ebox"><div class="v">120 min</div><div class="k">Duration</div></div>
+        <div class="ebox"><div class="v">700<span style="color:var(--muted);font-size:14px">/1000</span></div><div class="k">Passing score</div></div>
+        <div class="ebox"><div class="v">5</div><div class="k">Domains</div></div>
+        <div class="ebox"><div class="v">30–35%</div><div class="k">Biggest: GenAI + agents</div></div>
+      </div>
+      <div class="retire">⚠ <strong>Heads-up:</strong> exam <strong>AI-102</strong> and the old "Azure AI Engineer Associate" cert were <strong>retired June 30, 2026</strong>.
+        The current track is <strong>AI-103 · Developing AI Apps and Agents on Azure</strong> → cert: <strong>Azure AI Apps &amp; Agents Developer Associate</strong>. This app targets AI-103.</div>
+
+      <div class="card">
+        <div class="eyebrow">The one picture to retain</div>
+        <h2 class="title">Microsoft Foundry — how everything nests</h2>
+        <p class="lede">Every "where does X live?" exam question is answered by this containment map.</p>
+        <div class="blueprint" style="margin-top:14px">
+          <div class="accessrow">
+            <span class="lbl">You work through ►</span>
+            <span class="apill"><b>Foundry portal</b> · visual dev</span>
+            <span class="apill"><b>Foundry SDK</b> · code, CI/CD</span>
+            <span class="apill"><b>VS Code + Foundry Toolkit</b></span>
+          </div>
+          <div class="mapbox sub"><span class="boxlabel">Azure subscription</span>
+            <div class="mapbox res"><span class="boxlabel">Microsoft Foundry resource</span>
+              <div style="font-size:12.5px;color:var(--muted)">provides compute · storage · AI tools — hosts many projects</div>
+              <div class="projrow">
+                <span class="projchip def">PROJECT (default)</span><span class="projchip">project 2</span><span class="projchip">project n…</span>
+              </div>
+              <div class="mapbox"><span class="boxlabel">One project = your workspace</span>
+                <div style="font-size:12.5px;color:var(--muted)">connections · data · code — 4 kinds of assets:</div>
+                <div class="assetgrid">
+                  <div class="asset" style="border-top-color:var(--s1)"><h4 style="color:var(--s1)">Models</h4>
+                    <p><b>Foundry Models</b> catalog: OpenAI + Microsoft + partners → deploy → call via <b>2 endpoints</b>: project endpoint (Foundry SDK/APIs) · Azure OpenAI endpoint (OpenAI SDKs)</p></div>
+                  <div class="asset" style="border-top-color:var(--s2)"><h4 style="color:var(--s2)">Agents</h4>
+                    <p>Built on <b>Foundry Agent Service</b> via project endpoint · agent = <b>LLM + Instructions + Tools</b> ("LIT")</p></div>
+                  <div class="asset" style="border-top-color:var(--s3)"><h4 style="color:var(--s3)">Tools</h4>
+                    <p>Built-in: web search, code interpreter · <b>MCP</b> → custom / third-party · <b>Foundry Tools</b>: 5 prebuilt AI services</p></div>
+                  <div class="asset" style="border-top-color:var(--s5)"><h4 style="color:var(--s5)">Knowledge</h4>
+                    <p><b>Foundry IQ</b> = one central MCP-based knowledge connection → grounds prompts in your data</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mapnote">Older ("classic") Foundry projects = hub-based architecture. A project always belongs to exactly <b>one</b> Foundry resource.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="eyebrow">5 AI capabilities · unit 2</div>
+        <h2 class="title">What AI can do — think in verbs</h2>
+        <div class="verbrow" style="margin-top:12px">
+          <div class="verb" style="border-top-color:var(--s2)"><div class="v" style="color:var(--s2)">CREATE + ACT</div><div class="nm">Generative AI &amp; agents</div><div class="ex">chat, content, copilots · agents automate tasks</div></div>
+          <div class="verb" style="border-top-color:var(--s4)"><div class="v" style="color:var(--s4)">READ</div><div class="nm">Natural language processing</div><div class="ex">classify, sentiment, summarize text</div></div>
+          <div class="verb" style="border-top-color:var(--s1)"><div class="v" style="color:var(--s1)">HEAR / TALK</div><div class="nm">Computer speech</div><div class="ex">speech↔text, live voice, translation</div></div>
+          <div class="verb" style="border-top-color:var(--s3)"><div class="v" style="color:var(--s3)">SEE</div><div class="nm">Computer vision</div><div class="ex">images, video, camera · checkout-free store</div></div>
+          <div class="verb" style="border-top-color:var(--s5)"><div class="v" style="color:var(--s5)">EXTRACT</div><div class="nm">Information extraction</div><div class="ex">receipts → dates, line items, totals</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="eyebrow">Decision shortcut</div>
+        <h2 class="title">Which building block?</h2>
+        <div class="decide" style="margin-top:12px">
+          <div class="dcard"><div class="if">If the task is…</div><div class="then">Common + predictable → Foundry Tools</div><div class="why">prebuilt, cost-effective</div></div>
+          <div class="dcard"><div class="if">If you need…</div><div class="then">Original content / chat → deploy a model</div><div class="why">Foundry Models catalog</div></div>
+          <div class="dcard"><div class="if">If it should…</div><div class="then">Act autonomously → build an agent</div><div class="why">LLM + instructions + tools</div></div>
+          <div class="dcard"><div class="if">If it needs…</div><div class="then">Your data → Foundry IQ / RAG</div><div class="why">central MCP knowledge</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="eyebrow">Naming decoder · 2026 renames</div>
+        <h2 class="title">Old name → what it means now</h2>
+        <p class="lede">Docs, SDKs, and older practice questions still use retired names. Translate on sight.</p>
+        <div class="tblwrap"><table class="tbl">
+          <tr><th>You'll still see</th><th>It now means</th></tr>
+          <tr><td>Azure AI Foundry / AI Studio</td><td>Microsoft Foundry (platform + portal)</td></tr>
+          <tr><td>Azure AI Services ← Cognitive Services</td><td>Foundry Tools (prebuilt AI services)</td></tr>
+          <tr><td>Azure AI Foundry SDK</td><td>Microsoft Foundry SDK</td></tr>
+          <tr><td>Hub-based project</td><td>"Classic" Foundry project (older architecture)</td></tr>
+          <tr><td>Exam AI-102 (retired 2026-06-30)</td><td>Exam AI-103 · Developing AI Apps and Agents on Azure</td></tr>
+        </table></div>
+      </div>
+    </section>
+
+    <!-- ================= TOPICS ================= -->
+    <section class="view" id="tab-topics">
+      <div class="eyebrow" style="margin:2px 0 10px">Path 1 · Module 1 · deep dive</div>
+
+      <div class="card topic" id="topic-0">
+        <div class="topichead"><div class="grow">
+          <div class="eyebrow"><span class="dot" style="background:var(--s1)"></span>Unit 2 · 5 min read → 40-sec card</div>
+          <h2 class="title">What is AI?</h2>
+        </div><button class="seenbtn" data-topic="0">Got the picture ✓</button></div>
+        <ul class="short">
+          <li><strong>Modern AI</strong> = machine-learning models trained on huge data → interpret input · reason · respond · predict</li>
+          <li><strong>Generative AI</strong>: LLMs create original output from natural-language prompts (text, images, code)</li>
+          <li><strong>Agents</strong> = generative AI put to work: <strong>LLM + instructions + tools</strong> → automates tasks semi/fully autonomously</li>
+          <li><strong>NLP</strong>: statistical + task-specific models still best for classification · sentiment · summarization</li>
+          <li><strong>Speech</strong>: recognize + synthesize · handles noise, interruptions, accents · transcription + read-aloud</li>
+          <li><strong>Vision</strong>: interpret images/video/live camera · <strong>multimodal</strong> models also generate visuals</li>
+          <li><strong>Information extraction</strong>: pull key facts from docs, forms, images, recordings</li>
+        </ul>
+        <div class="callout"><span class="tag">Exam angle</span>Scenario → capability matching. Find the verb in the question: create / act / read / hear / see / extract.</div>
+        <div class="srcline">Source: <a href="https://learn.microsoft.com/en-us/training/modules/prepare-azure-ai-development/2-what-is-ai?pivots=text" target="_blank" rel="noopener">Unit 2 — What is AI?</a></div>
+      </div>
+
+      <div class="card topic" id="topic-1">
+        <div class="topichead"><div class="grow">
+          <div class="eyebrow"><span class="dot" style="background:var(--s2)"></span>Unit 3 · 5 min read → 40-sec card</div>
+          <h2 class="title">Microsoft Foundry</h2>
+        </div><button class="seenbtn" data-topic="1">Got the picture ✓</button></div>
+        <ul class="short">
+          <li><strong>Foundry</strong> = Azure's AI dev platform · recommended for all but the simplest solutions · portal + SDK</li>
+          <li><strong>Project</strong> = your workspace (connections, data, code) · belongs to exactly <strong>1 Foundry resource</strong></li>
+          <li><strong>Resource</strong> hosts many projects (one is <strong>default</strong>) · provides compute, storage, AI tools</li>
+          <li>Project assets = <strong>M·A·T·K</strong>: Models · Agents · Tools · Knowledge</li>
+          <li>Models: reach deployments via <strong>2 endpoints</strong> — project endpoint (Foundry APIs) · Azure OpenAI endpoint (OpenAI SDKs)</li>
+          <li>Agents: built + consumed via <strong>Foundry Agent Service</strong> · tools connect over <strong>MCP</strong></li>
+          <li><strong>Foundry IQ</strong>: one central MCP knowledge connection → grounding made simple</li>
+          <li>Portal = find/compare/deploy/test models, build agents, manage access + keys · SDK = automation, CI/CD</li>
+        </ul>
+        <div class="callout"><span class="tag">Exam angle</span>"Which portal manages project assets?" → <b>Foundry portal</b> (not Azure portal). "Classic" = older hub-based projects.</div>
+        <div class="srcline">Source: <a href="https://learn.microsoft.com/en-us/training/modules/prepare-azure-ai-development/4-azure-ai-foundry?pivots=text" target="_blank" rel="noopener">Unit 3 — Microsoft Foundry</a></div>
+      </div>
+
+      <div class="card topic" id="topic-2">
+        <div class="topichead"><div class="grow">
+          <div class="eyebrow"><span class="dot" style="background:var(--s3)"></span>Unit 4 · 5 min read → 40-sec card</div>
+          <h2 class="title">Foundry Tools — the 5 prebuilt services</h2>
+        </div><button class="seenbtn" data-topic="2">Got the picture ✓</button></div>
+        <div class="tblwrap"><table class="tbl">
+          <tr><th>Tool</th><th>Does</th><th>Trigger words in questions</th></tr>
+          <tr><td>Azure Language</td><td>entities · sentiment · summarization · conversational models · Q&amp;A</td><td>"analyze text", "sentiment"</td></tr>
+          <tr><td>Azure Speech</td><td>text↔speech · real-time live voice</td><td>"transcribe", "voice", "read aloud"</td></tr>
+          <tr><td>Azure Translator</td><td>text translation, many languages</td><td>"translate text"</td></tr>
+          <tr><td>Azure Document Intelligence</td><td>fields from invoices, receipts, forms (prebuilt or custom models)</td><td>"invoice", "form", "receipt"</td></tr>
+          <tr><td>Azure Content Understanding</td><td>multimodal extraction: docs + images + <b>video + audio</b></td><td>"multimodal", "video/audio content"</td></tr>
+        </table></div>
+        <ul class="short">
+          <li>Why: prebuilt = <strong>more cost-effective + predictable</strong> than generative-AI-only solutions</li>
+          <li>Connect: tool-specific <strong>endpoint on your Foundry resource</strong> · auth = key or Entra token</li>
+          <li>History: Cognitive Services → Azure AI Services → <strong>Foundry Tools</strong> (old names live on in APIs)</li>
+        </ul>
+        <div class="callout"><span class="tag">Exam angle</span>Invoice/form → <b>Document Intelligence</b>. Add video or audio → <b>Content Understanding</b>. Text feelings → <b>Language</b>.</div>
+        <div class="srcline">Source: <a href="https://learn.microsoft.com/en-us/training/modules/prepare-azure-ai-development/3-azure-ai-services?pivots=text" target="_blank" rel="noopener">Unit 4 — Foundry Tools</a></div>
+      </div>
+
+      <div class="card topic" id="topic-3">
+        <div class="topichead"><div class="grow">
+          <div class="eyebrow"><span class="dot" style="background:var(--s4)"></span>Unit 5 · 5 min read → 40-sec card</div>
+          <h2 class="title">Developer tools &amp; SDKs — the stack</h2>
+        </div><button class="seenbtn" data-topic="3">Got the picture ✓</button></div>
+        <div class="stack">
+          <div class="layer"><span class="lt">No code</span><b>Foundry portal</b> — deploy, test, playgrounds, keys</div>
+          <div class="layer"><span class="lt">Editor</span><b>VS Code / Visual Studio</b> + <b>Foundry Toolkit extension</b> (browse resources · deploy models · playgrounds · YAML agent designer · codegen) + <b>GitHub Copilot</b></div>
+          <div class="layer"><span class="lt">Code</span><b>Microsoft Foundry SDK</b> (projects, agents, Foundry IQ) · <b>The OpenAI API</b> (OpenAI-syntax chat apps) · <b>Foundry Tools SDKs</b> (per-service)</div>
+          <div class="layer"><span class="lt">Wire</span><b>REST APIs</b> — every service, any language</div>
+        </div>
+        <ul class="short">
+          <li>Languages: <strong>C# · Python · Node/TypeScript · Java</strong> and more</li>
+          <li>GitHub = source control + DevOps backbone · Copilot = AI pair programmer</li>
+        </ul>
+        <div class="callout"><span class="tag">Exam angle</span>Match scenario → SDK: manage agents/projects = <b>Foundry SDK</b> · OpenAI-style chat = <b>OpenAI API</b> · single service = <b>that tool's SDK</b>.</div>
+        <div class="srcline">Source: <a href="https://learn.microsoft.com/en-us/training/modules/prepare-azure-ai-development/5-tools-and-sdks?pivots=text" target="_blank" rel="noopener">Unit 5 — Developer tools and SDKs</a></div>
+      </div>
+
+      <div class="card topic" id="topic-4">
+        <div class="topichead"><div class="grow">
+          <div class="eyebrow"><span class="dot" style="background:var(--s5)"></span>Unit 6 · 5 min read → 40-sec card</div>
+          <h2 class="title">Responsible AI — 6 principles, 3 pairs</h2>
+        </div><button class="seenbtn" data-topic="4">Got the picture ✓</button></div>
+        <div class="paircols">
+          <div class="paircol"><div class="ph">People</div>
+            <div class="ptile"><b>Fairness</b><span>no group bias · check training data + per-group accuracy from day 1 · loan approvals</span></div>
+            <div class="ptile"><b>Inclusiveness</b><span>benefits everyone · diverse input in design + testing</span></div>
+          </div>
+          <div class="paircol"><div class="ph">System</div>
+            <div class="ptile"><b>Reliability &amp; safety</b><span>rigorous testing · respect confidence thresholds · self-driving, diagnosis</span></div>
+            <div class="ptile"><b>Privacy &amp; security</b><span>protect training data AND live data</span></div>
+          </div>
+          <div class="paircol"><div class="ph">Trust</div>
+            <div class="ptile"><b>Transparency</b><span>users know purpose, limits, confidence scores, data use</span></div>
+            <div class="ptile"><b>Accountability</b><span>humans answer for the system · governance framework</span></div>
+          </div>
+        </div>
+        <div class="callout"><span class="tag">Exam angle</span>Guaranteed question style: scenario → principle. "Users should understand limitations" = <b>Transparency</b>. "Governance framework" = <b>Accountability</b>.</div>
+        <div class="srcline">Source: <a href="https://learn.microsoft.com/en-us/training/modules/prepare-azure-ai-development/6-responsible-ai?pivots=text" target="_blank" rel="noopener">Unit 6 — Responsible AI</a></div>
+      </div>
+
+      <div class="card topic" id="topic-5">
+        <div class="topichead"><div class="grow">
+          <div class="eyebrow"><span class="dot" style="background:var(--accent)"></span>Unit 7 · 30 min hands-on</div>
+          <h2 class="title">Lab: touch the Foundry portal once</h2>
+        </div><button class="seenbtn" data-topic="5">Done it ✓</button></div>
+        <ul class="short">
+          <li>The exam assumes you've <strong>seen the portal</strong> — one 30-min lab beats hours of reading</li>
+          <li>Flow: open Foundry portal → create a project → deploy a model → test in the playground</li>
+          <li>No subscription? New Azure accounts include <strong>30 days of credits</strong></li>
+        </ul>
+        <div class="callout"><span class="tag">Do this</span><a href="https://go.microsoft.com/fwlink/?linkid=2353647" target="_blank" rel="noopener">Launch the official exercise ↗</a> — then come back and drill the quiz.</div>
+        <div class="srcline">Source: <a href="https://learn.microsoft.com/en-us/training/modules/prepare-azure-ai-development/7-exercise-explore-ai-foundry" target="_blank" rel="noopener">Unit 7 — Exercise</a></div>
+      </div>
+
+      <div id="pathTopics"></div>
+    </section>
+
+    <!-- ================= FLASHCARDS ================= -->
+    <section class="view" id="tab-cards">
+      <div class="deckchips" id="deckchips"></div>
+      <div class="flashwrap">
+        <div class="flash" id="flash" role="button" tabindex="0" aria-label="Flashcard — click to flip"></div>
+        <div class="fbtns noprint">
+          <button class="fbtn" id="btnAgain">↻ Again</button>
+          <button class="fbtn primary" id="btnFlip">Flip (space)</button>
+          <button class="fbtn" id="btnGot">✓ Got it</button>
+        </div>
+        <div class="fmeta"><span id="fpos"></span><button class="fbtn" id="btnShuffle" style="padding:4px 10px;font-size:11px">shuffle + reset run</button><span id="fknown"></span></div>
+      </div>
+    </section>
+
+    <!-- ================= QUIZ ================= -->
+    <section class="view" id="tab-quiz">
+      <div class="qwrap" id="quizbox"></div>
+    </section>
+
+    <!-- ================= EXAM ================= -->
+    <section class="view" id="tab-exam">
+      <div class="card">
+        <div class="eyebrow">Target</div>
+        <h2 class="title">Exam AI-103 · Developing AI Apps and Agents on Azure</h2>
+        <p class="lede">→ Microsoft Certified: <strong>Azure AI Apps and Agents Developer Associate</strong></p>
+        <div style="margin-top:10px">
+          <span class="chip">120 minutes</span><span class="chip">pass ≥ 700/1000</span><span class="chip">proctored · Pearson VUE</span>
+          <span class="chip">Python-focused</span><span class="chip">retake after 24 h</span><span class="chip">skills list of 2026-04-16</span>
+        </div>
+        <div style="margin-top:12px;font-size:13.5px">
+          <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-103" target="_blank" rel="noopener">Official study guide ↗</a> ·
+          <a href="https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-apps-and-agents-developer-associate/" target="_blank" rel="noopener">Certification page ↗</a> ·
+          <a href="https://learn.microsoft.com/en-us/training/courses/ai-103t00" target="_blank" rel="noopener">Course AI-103T00 ↗</a>
+        </div>
+        <div class="callout" style="margin-top:14px"><span class="tag">Note · Jul 2026</span>No official practice assessment for AI-103 yet — expected within ~8 weeks of the exam leaving beta. The quiz tab covers module 1; more modules can be added to this app as you go.</div>
+      </div>
+
+      <div class="card">
+        <div class="eyebrow">Weight by domain · tap a bar for the skills inside</div>
+        <h2 class="title">Where the points are</h2>
+        <div id="domains"></div>
+      </div>
+
+      <div class="card">
+        <div class="eyebrow">Course AI-103T00 · all 4 learning paths · tick modules as you finish them</div>
+        <h2 class="title">Roadmap — 30 modules to exam-ready</h2>
+        <div id="roadmap4"></div>
+        <div class="srcline">Paths: <a href="https://learn.microsoft.com/en-us/training/paths/develop-generative-ai-apps/" target="_blank" rel="noopener">GenAI apps</a> ·
+          <a href="https://learn.microsoft.com/en-us/training/paths/develop-ai-agents-azure/" target="_blank" rel="noopener">AI agents</a> ·
+          <a href="https://learn.microsoft.com/en-us/training/paths/develop-language-solutions-azure-ai/" target="_blank" rel="noopener">Natural language</a> ·
+          <a href="https://learn.microsoft.com/en-us/training/paths/insight-visual-data/" target="_blank" rel="noopener">Visual data</a></div>
+      </div>
+    </section>
+
+    <!-- ================= CRAM ================= -->
+    <section class="view cram" id="tab-cram">
+      <div class="card noprint" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <div style="flex:1;min-width:220px"><div class="eyebrow">One page · everything</div>
+          <h2 class="title">Cram sheet</h2>
+          <p class="lede">The whole module at a glance. Print it, stick it on the wall.</p></div>
+        <button class="fbtn primary" onclick="window.print()">🖨 Print / PDF</button>
+      </div>
+      <div class="cramgrid">
+        <div class="card"><h3>Exam facts</h3>
+          <ul class="short">
+            <li><strong>AI-103</strong> · Developing AI Apps and Agents on Azure → cert: <strong>Azure AI Apps &amp; Agents Developer Associate</strong></li>
+            <li>120 min · pass ≥ 700/1000 · proctored · AI-102 retired 2026-06-30</li>
+            <li>Weights: Plan/manage <strong>25–30</strong> · GenAI+agents <strong>30–35</strong> · Vision 10–15 · Text 10–15 · Extraction 10–15</li>
+          </ul></div>
+        <div class="card"><h3>5 capabilities (verbs)</h3>
+          <ul class="short">
+            <li><strong>CREATE+ACT</strong> GenAI &amp; agents · agent = LLM+Instructions+Tools (<strong>LIT</strong>)</li>
+            <li><strong>READ</strong> NLP: classify · sentiment · summarize</li>
+            <li><strong>HEAR/TALK</strong> Speech: STT · TTS · live voice</li>
+            <li><strong>SEE</strong> Vision: images/video · multimodal = in AND out</li>
+            <li><strong>EXTRACT</strong> Info extraction: docs → facts</li>
+          </ul></div>
+        <div class="card"><h3>Foundry nesting</h3>
+          <ul class="short">
+            <li>Subscription ⊃ <strong>Foundry resource</strong> ⊃ projects (1 default) ⊃ assets</li>
+            <li>Assets = <strong>M·A·T·K</strong>: Models · Agents · Tools · Knowledge</li>
+            <li>Models via 2 endpoints: project (Foundry APIs) · Azure OpenAI (OpenAI SDKs)</li>
+            <li>Agents = Foundry Agent Service · custom tools via <strong>MCP</strong></li>
+            <li>Knowledge = <strong>Foundry IQ</strong> (central MCP connection)</li>
+            <li>Classic = hub-based (older)</li>
+          </ul></div>
+        <div class="card"><h3>Foundry Tools → triggers</h3>
+          <div class="tblwrap"><table class="tbl">
+            <tr><td>Language</td><td>sentiment · entities · summarize · Q&amp;A</td></tr>
+            <tr><td>Speech</td><td>STT · TTS · live voice</td></tr>
+            <tr><td>Translator</td><td>translate text</td></tr>
+            <tr><td>Document Intelligence</td><td>invoice · receipt · form fields</td></tr>
+            <tr><td>Content Understanding</td><td>+ video · audio · multimodal</td></tr>
+          </table></div>
+          <ul class="short"><li>Prebuilt = cost-effective + predictable · was "Azure AI Services" / "Cognitive Services"</li></ul></div>
+        <div class="card"><h3>SDK picker</h3>
+          <ul class="short">
+            <li>Projects / agents / IQ / CI-CD → <strong>Microsoft Foundry SDK</strong></li>
+            <li>OpenAI-syntax chat app → <strong>The OpenAI API</strong></li>
+            <li>One service only → <strong>that tool's SDK</strong> or REST</li>
+            <li>In VS Code → <strong>Foundry Toolkit</strong> ext (playgrounds · YAML agents · codegen)</li>
+          </ul></div>
+        <div class="card"><h3>Responsible AI · 3 pairs</h3>
+          <ul class="short">
+            <li><strong>People</strong>: Fairness (no group bias) · Inclusiveness (works for all)</li>
+            <li><strong>System</strong>: Reliability &amp; safety (test + thresholds) · Privacy &amp; security (protect data)</li>
+            <li><strong>Trust</strong>: Transparency (purpose/limits/confidence) · Accountability (humans + governance)</li>
+          </ul></div>
+        <div class="card"><h3>Path 1 · GenAI apps</h3>
+          <ul class="short">
+            <li>Deploy: <strong>Global Standard</strong> default · <strong>PTU</strong> predictable · <strong>Batch</strong> −50% ≤24h · <strong>Data Zone</strong> residency</li>
+            <li><strong>Responses API</strong> = stateful (previous_response_id) · ChatCompletions = resend history</li>
+            <li>Foundry SDK = agents/evals/tracing · OpenAI SDK = portable inference</li>
+            <li>Tools: code_interpreter · web_search · file_search · function (your code runs it)</li>
+            <li>Optimize ladder: prompts → RAG (hybrid search!) → fine-tune (LoRA: SFT · RFT · DPO)</li>
+            <li>RAI: <strong>Map→Measure→Mitigate→Manage</strong> · layers Model→Safety→SysMsg→UX · filters 4 sev × 5 cat · prompt shields = jailbreaks</li>
+          </ul></div>
+        <div class="card"><h3>Path 2 · AI agents</h3>
+          <ul class="short">
+            <li>Declarative (prompt / workflow YAML) vs hosted (containers) · deploy = project, <strong>publish</strong> = Agent Application (Entra-only, <strong>reassign RBAC!</strong>)</li>
+            <li>Custom tools: functions · Azure Functions · OpenAPI (anon/key/MI) · Logic Apps</li>
+            <li>MCP: MCPTool(label,url) · require_approval <strong>always</strong> default · allowed_tools</li>
+            <li>Foundry IQ: 6 sources · SP <strong>Remote</strong> live+permissions vs <strong>Indexed</strong> fast+powerful</li>
+            <li>Workflows: If/Else · For Each · <strong>Power Fx</strong> · versions immutable</li>
+            <li>Agent Framework = SK + AutoGen · service-side history = Foundry · approval_mode</li>
+            <li>5 orchestrations: <strong>concurrent · sequential · handoff · group chat · Magentic</strong> (ledger) · A2A = agent↔agent, Agent Card at /.well-known</li>
+          </ul></div>
+        <div class="card"><h3>Path 3 · Language</h3>
+          <ul class="short">
+            <li>Azure Language now: <strong>detect · NER · PII redaction</strong> (sentiment/summary/key-phrases deprecated) · 5,120 chars/doc, 1,000 docs</li>
+            <li>Speech chain: SpeechConfig → AudioConfig → Recognizer/Synthesizer · Reason: RecognizedSpeech / <strong>NoMatch</strong> / Canceled · <strong>SSML</strong> = style, phonemes, prosody</li>
+            <li>GenAI speech models: -transcribe · -tts · <strong>-diarize</strong> = speakers</li>
+            <li>MCP: Language server = 4 text tools · Speech server needs <strong>blob + SAS</strong> · phrase hints boost accuracy</li>
+            <li><strong>Voice Live</strong>: WebSocket speech-to-speech · barge-in = stop playback on speech-started · CS User + ai.azure.com/.default</li>
+            <li>Translator: to_language <strong>list</strong> · omit from = auto-detect · <strong>transliterate</strong> = scripts · event-based synth = 1:1 only</li>
+          </ul></div>
+        <div class="card"><h3>Path 4 · Vision &amp; extraction</h3>
+          <ul class="short">
+            <li>Vision chat: multi-part message, image = URL or <strong>base64 data URL</strong> · image gen = gpt-image-1 · FLUX</li>
+            <li><strong>Sora 2</strong>: 4/8/12 s · async poll · 2 jobs · 24 h window · ref image exact res, no faces · remix by video_id</li>
+            <li><strong>Content Understanding</strong>: schema → extract/classify/generate · confidence ≥0.9 auto, &lt;0.7 manual · needs GPT-4.1 + mini + embedding deployments · :analyze vs analyzeBinary</li>
+            <li><strong>Doc Intelligence</strong>: read/layout · <strong>template</strong> fixed vs <strong>neural</strong> varied · composed routes · 5–6 samples min</li>
+            <li><strong>AI Search</strong>: indexer → skillset → index · attributes: searchable/filterable/<strong>facetable</strong>/sortable · $filter case-sensitive · <strong>knowledge store projections</strong> (tables/JSON/images)</li>
+          </ul></div>
+        <!--@CRAM_PATHS@-->
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="wrap">
+    <div>Unofficial study aid, distilled 2026-07-27 from <a href="https://learn.microsoft.com/en-us/training/modules/prepare-azure-ai-development/" target="_blank" rel="noopener">Microsoft Learn — Plan and prepare to develop AI solutions on Azure</a> and the <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-103" target="_blank" rel="noopener">AI-103 study guide</a> (skills of 2026-04-16). Content © Microsoft — verify details against the live pages.</div>
+    <div>Progress is stored only in this browser. Keyboard: <span class="chip">space</span> flip · <span class="chip">g</span> got it · <span class="chip">a</span> again · <span class="chip">1–4</span> answer</div>
+  </div></footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  /* ---------- state ---------- */
+  var KEY="aiprep.v1";
+  function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return {}; } }
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+  var S=load();
+  S.known=S.known||{}; S.seen=S.seen||{}; S.mdone=S.mdone||{}; S.quiz=S.quiz||{best:null,runs:[]}; S.theme=S.theme||"auto";
+
+  /* ---------- theme ---------- */
+  var themeBtn=document.getElementById("themeBtn");
+  function applyTheme(){
+    var r=document.documentElement;
+    if(S.theme==="auto"){ r.removeAttribute("data-theme"); } else { r.setAttribute("data-theme",S.theme); }
+    themeBtn.textContent=S.theme.toUpperCase();
+  }
+  themeBtn.addEventListener("click",function(){
+    S.theme=S.theme==="auto"?"light":(S.theme==="light"?"dark":"auto"); save(); applyTheme();
+  });
+  applyTheme();
+
+  /* ---------- tabs ---------- */
+  var tabs=document.querySelectorAll(".tab");
+  function show(name){
+    tabs.forEach(function(t){ t.classList.toggle("active",t.dataset.tab===name); });
+    document.querySelectorAll("section.view").forEach(function(s){ s.classList.toggle("active",s.id==="tab-"+name); });
+    window.scrollTo({top:0});
+  }
+  tabs.forEach(function(t){ t.addEventListener("click",function(){ show(t.dataset.tab); }); });
+
+  /* ---------- header stats ---------- */
+  function stats(){
+    var known=Object.keys(S.known).length;
+    var mdone=Object.keys(S.mdone).length;
+    document.getElementById("stModules").textContent=mdone+"/"+MODS.length;
+    document.getElementById("stCards").textContent=known+"/"+CARDS.length;
+    document.getElementById("stQuiz").textContent=S.quiz.best===null?"—":S.quiz.best+"%";
+  }
+
+  /* ---------- paths & modules ---------- */
+  var PATHS={p1:{n:"Path 1 · Generative AI apps",c:"var(--s2)"},p2:{n:"Path 2 · AI agents",c:"var(--s1)"},p3:{n:"Path 3 · Natural language",c:"var(--s4)"},p4:{n:"Path 4 · Vision & extraction",c:"var(--s3)"}};
+  var MODS=[
+    {id:"m1",path:"p1",n:1,title:"Plan and prepare to develop AI solutions on Azure",slug:"prepare-azure-ai-development",rich:true}
+    ,{id:"m2",path:"p1",n:2,title:"Select, deploy, and evaluate Microsoft Foundry models",slug:"model-catalog-evaluate",
+      b:["<strong>Catalog</strong>: 1,900+ models — Azure-direct (billed via your subscription: OpenAI, Microsoft) + partner/community (own licensing)",
+         "Filter by: collection · capability (reasoning, tool calling, multimodal) · provider · task · fine-tuning · industry",
+         "<strong>LLM</strong> (GPT-5, Llama 70B) = deep reasoning, higher cost · <strong>SLM</strong> (Phi-4, Llama 8B) = fast + cheap, runs on edge",
+         "Specialized: <strong>embeddings</strong> (semantic search, RAG) · image gen · video gen (Sora 2) · TTS/STT · reasoning models",
+         "Benchmarks, 4 axes: <strong>Quality</strong> (index 0–1) · <strong>Safety</strong> (HarmBench ASR ↓, ToxiGen F1 ↑) · <strong>Cost</strong> (per 1M tokens, 3:1 in:out) · <strong>Performance</strong> (latency P50–P99, TTFT, tokens/sec)",
+         "Deploy types: <strong>Global Standard</strong> (default: pay-per-token, max quota) · <strong>Provisioned</strong> (reserved PTUs = predictable) · <strong>Batch</strong> (−50%, async ≤24h) · <strong>Data Zone / Regional</strong> (residency) · Developer (fine-tune eval only)",
+         "Call a deployment with 3 things: <strong>endpoint URL + auth</strong> (key or Entra ID — Entra for production) + <strong>deployment name</strong>",
+         "Evaluate: manual (playground, side-by-side) · AI-assisted (groundedness, relevance, coherence, fluency + safety defect rates) · NLP metrics vs ground truth (F1, BLEU, METEOR, ROUGE)"],
+      x:"Deployment-type picker: predictable throughput → <b>Provisioned/PTU</b> · big cheap async job → <b>Batch</b> · data residency → <b>Data Zone/Regional</b> · default → <b>Global Standard</b>. Metric picker: translation → <b>BLEU</b> · summarization → <b>ROUGE</b> · answer-sticks-to-context → <b>Groundedness</b>."}
+    ,{id:"m3",path:"p1",n:3,title:"Develop a generative AI chat app with Microsoft Foundry",slug:"foundry-sdk",
+      b:["Workflow: <strong>playground → Code button</strong> → generated SDK sample (endpoint + deployment pre-filled) → customize → iterate",
+         "2 endpoints per project: <strong>project endpoint</strong> (…services.ai.azure.com/api/projects/…) · <strong>Azure OpenAI endpoint</strong> (…openai.azure.com/openai/v1)",
+         "<strong>Foundry SDK</strong> (azure-ai-projects, AIProjectClient): connections · tracing · datasets · agents · evaluations · get_openai_client() for chat",
+         "<strong>OpenAI SDK</strong>: max OpenAI compatibility + portability, inference only — no agents/evals · both SDKs can combine in one app",
+         "Auth: <strong>Entra ID for production</strong> (DefaultAzureCredential) · keys only via Key Vault · env vars",
+         "<strong>Responses API</strong> = recommended: stateful multi-turn (previous_response_id), unifies ChatCompletions + Assistants, supports Foundry direct models",
+         "<strong>ChatCompletions API</strong> = classic + cross-platform: stateless — you resend the messages[] history every turn",
+         "Context window = instructions + prompt + history + tool schemas + tool outputs + retrieved docs — all tokenized <strong>every request</strong> · stream=True + async client for responsiveness"],
+      x:"API picker: new dev + built-in conversation state → <b>Responses API</b> · legacy/cross-platform compatibility → <b>ChatCompletions</b>. SDK picker: agents, evaluations, tracing → <b>Foundry SDK</b> · pure inference, portable OpenAI code → <b>OpenAI SDK</b>."}
+    ,{id:"m4",path:"p1",n:4,title:"Develop generative AI apps that use tools",slug:"use-generative-ai-tools",
+      b:["Tools push a model past its training data: fetch <strong>live info</strong> · <strong>take actions</strong> · ground answers · reach your systems",
+         "Pass <strong>tools[]</strong> in responses.create() — the <strong>model decides</strong> when + which tool to use (steer via instructions)",
+         "<strong>code_interpreter</strong>: sandboxed Python runtime (pandas, numpy preloaded) — data analysis, math, file processing · <strong>no network access</strong>",
+         "<strong>web_search</strong>: live internet retrieval → current facts, source-grounded, fewer hallucinations",
+         "<strong>file_search</strong>: semantic search over <strong>your uploaded docs</strong> in a vector store, with citations · enterprise scale → use <strong>Foundry IQ</strong> instead",
+         "<strong>function</strong>: model emits a structured call → <strong>your code runs it</strong> → send back function_call_output → model finishes the answer",
+         "Prompt tools ≠ <strong>Foundry Tools</strong> (those are the prebuilt Azure AI services)",
+         "Same trio persisted as a named entity = an <strong>agent</strong> (model + instructions + tools)"],
+      x:"Tool picker: calculations / data files → <b>code_interpreter</b> · current events / pricing → <b>web_search</b> · your documents → <b>file_search</b> · your APIs + business logic → <b>function</b>. Trap: the model never executes your function — <b>your app does</b>."}
+    ,{id:"m5",path:"p1",n:5,title:"Optimize generative AI model performance",slug:"optimize-generative-ai-model-performance",
+      b:["3 complementary levers: <strong>prompt engineering</strong> (behavior, cheap+fast) → <strong>RAG</strong> (knowledge/accuracy) → <strong>fine-tuning</strong> (consistency, costly)",
+         "Prompt patterns: <strong>persona</strong> · <strong>format template</strong> · <strong>chain-of-thought</strong> (non-reasoning models only) · <strong>few-shot</strong> examples · delimiters · repeat key rule at the END (recency bias)",
+         "System message checklist: role → boundaries → output format → <strong>when-unsure policy</strong> · influences but never guarantees",
+         "Adjust <strong>temperature OR top_p, not both</strong> · low = factual, high = creative",
+         "<strong>RAG</strong> = Retrieve → Augment → Generate: search your data, inject as context, model answers grounded",
+         "<strong>Embeddings</strong> = text → vectors · <strong>cosine similarity</strong> ≈ 1 = same meaning · powers vector search",
+         "<strong>Azure AI Search</strong> retrieval modes: keyword · semantic · vector · <strong>hybrid = recommended</strong> for genAI",
+         "<strong>Fine-tuning</strong> (LoRA — updates small weight subset): SFT (labeled pairs) · RFT (graded feedback) · DPO (preference pairs) · JSONL data with consistent system message"],
+      x:"Symptom → fix: model <b>invents facts about your domain</b> → RAG · model <b>won't hold tone/format</b> despite good prompts → fine-tune · both → combine. Start with prompts, add layers only when needed. Hybrid search = the recommended retrieval answer."}
+    ,{id:"m6",path:"p1",n:6,title:"Implement a responsible generative AI solution",slug:"responsible-ai-studio",
+      b:["The <strong>4 Ms</strong>: <strong>Map</strong> harms → <strong>Measure</strong> them → <strong>Mitigate</strong> in layers → <strong>Manage</strong> operations (mirrors NIST AI RMF)",
+         "Map = identify (transparency notes, system cards, impact assessment) → prioritize (<strong>likelihood × impact</strong>) → test/verify (<strong>red teaming</strong>) → document + share",
+         "Measure = harm-eliciting prompt set → generate → categorize with strict criteria → <strong>baseline</strong> · manual first, then automated classifier, periodic manual re-checks",
+         "Mitigate at <strong>4 layers</strong> (inside-out): <strong>Model</strong> (right-size, fine-tune) · <strong>Safety system</strong> (guardrails) · <strong>System message + grounding</strong> (RAG) · <strong>User experience</strong> (input constraints, transparency docs)",
+         "Content filters: <strong>4 severities</strong> (safe · low · medium · high) × <strong>5 categories</strong> (hate &amp; fairness · sexual · violence · self-harm · task-adherence)",
+         "<strong>Prompt shields</strong> = abuse detection — catches systematic misuse + system-prompt subversion (jailbreaks)",
+         "Manage = prerelease reviews (<strong>legal · privacy · security · accessibility</strong>) · phased rollout · incident + rollback plans · block users/responses · feedback + telemetry"],
+      x:"Scenario → layer: \"choose a simpler model\" → <b>Model</b> · \"content filter / prompt shield\" → <b>Safety system</b> · \"add grounding data\" → <b>System message</b> · \"constrain the input UI\" → <b>User experience</b>. Order of the process = Map → Measure → Mitigate → Manage."}
+    /*@MODS_P1@*/
+    ,{id:"m7",path:"p2",n:7,title:"Develop AI agents with Microsoft Foundry and VS Code",slug:"develop-ai-agents-azure-vs-code",
+      b:["<strong>Foundry Agent Service</strong> = fully managed: build/deploy/scale agents, no infra · <strong>automatic tool-calling lifecycle</strong> · state handled via Responses API",
+         "2 agent types: <strong>declarative</strong> (config not code — prompt-based single agents, or <strong>workflow agents</strong> = multi-agent YAML) · <strong>hosted</strong> (containerized code, platform-run)",
+         "Build in <strong>portal</strong> (visual, fast prototyping) or <strong>VS Code extension</strong> (Agent Designer + YAML in Git + playgrounds + codegen)",
+         "Tool catalog: <strong>Configured</strong> (Code Interpreter, File Search) · <strong>Catalog</strong> (Bing Web Search, Azure AI Search, SharePoint, Fabric, Deep Research, Agent-to-Agent, MCP servers) · <strong>Custom</strong> (OpenAPI, your MCP)",
+         "<strong>File Search</strong> = your uploaded docs → vector store · <strong>Azure AI Search</strong> = enterprise-scale existing indexes",
+         "<strong>Deploy</strong> = save into project (team iterates) · <strong>Publish</strong> = creates an <strong>Agent Application</strong>: stable endpoint + own Entra identity for external callers",
+         "Agent Application auth = <strong>Entra ID only</strong> (caller needs <strong>Azure AI User</strong> role) — API keys not supported",
+         "⚠ Publish trap: agent gets a <strong>new dedicated identity — RBAC does not transfer</strong>; reassign roles or tool calls 403",
+         "Security risks: prompt injection · data leakage · privilege escalation · data poisoning · supply chain → least-privilege RBAC, input filtering, human-in-the-loop, full logging"],
+      x:"Deploy vs publish is the classic question: <b>deploy</b> keeps it in the project; <b>publish</b> mints the externally-callable endpoint + new identity (reassign RBAC!). Scenario \"search our existing enterprise index\" → <b>Azure AI Search tool</b>, not File Search."}
+    ,{id:"m8",path:"p2",n:8,title:"Integrate custom tools into your agent",slug:"build-agent-with-custom-tools",
+      b:["4 custom-tool options: <strong>function calling</strong> (your code) · <strong>Azure Functions</strong> (serverless, event-driven) · <strong>OpenAPI 3.0 tools</strong> (standard API specs) · <strong>Logic Apps</strong> (low/no-code workflows)",
+         "Declarative magic: you never call the tool yourself — the <strong>agent decides</strong> from meaningful names + well-documented parameters",
+         "Azure Functions: <strong>triggers</strong> = when it runs · <strong>bindings</strong> = data in/out (e.g. storage queue in, queue out)",
+         "OpenAPI tools support 3 auth types: <strong>anonymous · API key · managed identity</strong>",
+         "Use cases: CRM order lookups · inventory checks · appointment scheduling · IT ticket automation"],
+      x:"Pick the option: existing serverless/event-driven code → <b>Azure Functions</b> · documented external REST API → <b>OpenAPI tool</b> · low-code workflow → <b>Logic Apps</b> · in-app custom logic → <b>function calling</b>."}
+    ,{id:"m9",path:"p2",n:9,title:"Integrate MCP tools with AI agents",slug:"connect-agent-to-mcp-tools",
+      b:["MCP fixes tool sprawl: <strong>integrate once</strong> — agents query a live tool catalog at runtime, tools updated centrally, no agent redeploy",
+         "3 headline benefits: <strong>dynamic tool discovery</strong> · <strong>works across LLMs</strong> · <strong>standardized security</strong>",
+         "DIY pattern: <strong>FastMCP</strong> server (@mcp.tool, type hints + docstrings → definitions) → client <strong>session.list_tools()</strong> → async wrappers → FunctionTool → agent toolset",
+         "Foundry-native path: an <strong>MCPTool</strong> object — server_label · server_url · <strong>allowed_tools</strong> (restrict) · <strong>require_approval</strong> · custom headers for auth. No manual client session",
+         "require_approval: <strong>always (default)</strong> or never · flow: response contains <strong>mcp_approval_request</strong> → you reply with mcp_approval_response (approval_request_id + approve)"],
+      x:"Remember: Foundry agents attach remote MCP servers with <b>MCPTool(server_label, server_url)</b>; approval defaults to <b>always</b>; <b>allowed_tools</b> limits exposure. \"Add tools without redeploying the agent\" = MCP dynamic discovery."}
+    ,{id:"m10",path:"p2",n:10,title:"Build knowledge-enhanced agents with Foundry IQ",slug:"introduction-foundry-iq",
+      b:["<strong>Foundry IQ</strong> = managed knowledge platform <strong>built on Azure AI Search</strong> — shared knowledge bases, built once, used by many agents",
+         "Knowledge bases organized by <strong>business domain</strong> (\"Product docs\"), not storage location — one KB blends many sources",
+         "6 data sources: <strong>AI Search index</strong> (existing) · <strong>Blob Storage</strong> (files) · <strong>Web</strong> via Bing (real-time public) · <strong>SharePoint Remote</strong> (live + inherits permissions) · <strong>SharePoint Indexed</strong> (fast + advanced search) · <strong>OneLake</strong> (Fabric lakehouse)",
+         "Auto pipeline: discovery → <strong>chunk + embed</strong> → index → auto-reindex on changes",
+         "Agents connect to a knowledge base over <strong>MCP</strong> (the KB exposes an MCP URL)",
+         "Retrieval instruction contract: <strong>when</strong> (ALWAYS search, never training data) · <strong>how to cite</strong> (exact format) · <strong>fallback</strong> when not found",
+         "Quality levers: <strong>scoring profiles</strong> · <strong>semantic ranking</strong> · <strong>custom analyzers</strong> · monitor citation rate, fallback rate, accuracy"],
+      x:"SharePoint trap: <b>Remote</b> = always current, respects M365 permissions, zero index maintenance · <b>Indexed</b> = faster + full search power but needs upkeep. \"Fabric lakehouse\" → <b>OneLake</b>. \"Existing search investment\" → <b>AI Search index</b>."}
+    ,{id:"m11",path:"p2",n:11,title:"Integrate your agent with Microsoft 365",slug:"integrate-foundry-agent-with-m365",
+      b:["Publish to M365 → agent lives in <strong>Teams + Microsoft 365 Copilot</strong> · wizard creates: <strong>Azure Bot Service</strong> (routing) + Entra ID app + publishing package + Teams-store listing",
+         "2 scopes: <strong>Shared</strong> (instant, \"Your agents\", pilots) · <strong>Organization</strong> (\"Built by your org\", needs <strong>M365 admin approval</strong>)",
+         "Other channels: web preview · stable API endpoint · Bot Service channels (<strong>Slack, Telegram, Twilio SMS, Facebook</strong>)",
+         "Advanced: <strong>M365 Agents Toolkit</strong> = proxy app between Teams and your agent — custom SSO, middleware, multi-env CI/CD (hours–days vs minutes)",
+         "<strong>Work IQ</strong> = CLI + MCP server exposing M365 Copilot data to agents: emails · meetings · documents · Teams messages · people",
+         "Work IQ security: <strong>inherits your permissions</strong> (Graph), stores nothing, auditable · needs <strong>Copilot license + admin consent</strong>",
+         "Roles: <strong>Azure AI Project Manager</strong> to publish · <strong>Azure AI User</strong> to chat · reassign RBAC to the published identity (again!) · no secrets in store metadata"],
+      x:"Scope question: instant testing → <b>shared</b>; tenant-wide → <b>organization + admin approval</b>. \"Agent should read my mail/meetings/docs\" → <b>Work IQ</b> (MCP, Copilot license, admin consent). \"Works in playground, fails in Teams\" → published identity's missing RBAC."}
+    ,{id:"m12",path:"p2",n:12,title:"Build agent-driven workflows",slug:"build-agent-workflows-microsoft-foundry",
+      b:["Workflows = <strong>visual, declarative multi-agent orchestration</strong>: connected nodes on a canvas · dual <strong>visual ↔ YAML</strong> views · not auto-saved",
+         "3 patterns: <strong>sequential</strong> (fixed pipeline) · <strong>human-in-the-loop</strong> (pause for input/approval) · <strong>group chat</strong> (control shifts dynamically between agents)",
+         "Node families: <strong>Invoke</strong> (agent) · <strong>Flow</strong> (If/Else · Go To · For Each) · <strong>Data</strong> (Set/Reset Variable · Parse value) · <strong>Basic chat</strong> (ask user) · <strong>End</strong>",
+         "Agents can return <strong>structured JSON output</strong> (schema) → stored in variables → drives routing + conditions",
+         "<strong>Power Fx</strong> = the Excel-like glue: If(Local.Confidence &gt; 0.8, \"Proceed\", \"Escalate\") · Upper() · Sum() · IsBlank() · ForAll() · system vs local variables",
+         "Every save = a <strong>new immutable version</strong> → compare + roll back · attach notes for maintainers",
+         "From code: conversation + responses.create with an <strong>agent_reference by workflow name</strong> · stream events (response.completed, output_item.done) · human-in-the-loop = send follow-up messages"],
+      x:"Pattern picker: fixed pipeline → <b>sequential</b> · needs approval → <b>human-in-the-loop</b> · specialist agents collaborating dynamically → <b>group chat</b>. \"Route on the agent's answer\" → structured output + If/Else with a <b>Power Fx</b> condition."}
+    ,{id:"m13",path:"p2",n:13,title:"Develop an AI agent with Microsoft Agent Framework",slug:"develop-ai-agent-with-semantic-kernel",
+      b:["<strong>Microsoft Agent Framework</strong> = next generation of <strong>Semantic Kernel + AutoGen</strong> (same teams): simple agent abstractions + enterprise features + <strong>graph-based workflows</strong>",
+         "Building blocks: model clients (multi-provider) · <strong>agent sessions</strong> (state) · context providers (memory) · function tools (auto schema) · MCP clients · middleware · orchestration",
+         "One <strong>Agent base class</strong> everywhere → function calling · multi-turn · structured outputs · streaming · service tools",
+         "<strong>Service-side chat history</strong>: Foundry Agent Service ✓ (recommended) · Azure OpenAI/OpenAI <strong>Responses</strong> ✓ · ChatCompletion, Claude, Bedrock, Ollama ✗ (local only)",
+         "Recipe: endpoint + deployment name → <strong>DefaultAzureCredential</strong> → chat client → agent (instructions + tools) → session → run (streaming or not)",
+         "Custom tools: schema auto-generated from <strong>type annotations + docstrings</strong> or the <strong>@tool decorator</strong> (+ Pydantic for exact schemas)",
+         "<strong>approval_mode</strong> on a tool = human confirmation before execution · agents can be wrapped as <strong>tools of other agents</strong>"],
+      x:"\"Semantic Kernel or AutoGen?\" → they merged into the <b>Agent Framework</b>. \"History must survive app restarts/scale-out\" → a <b>service-side history</b> provider (Foundry). \"Irreversible action needs a human check\" → <b>approval_mode</b>."}
+    ,{id:"m14",path:"p2",n:14,title:"Orchestrate a multi-agent solution",slug:"orchestrate-semantic-kernel-multi-agent-solution",
+      b:["<strong>5 orchestration patterns</strong>: Concurrent (parallel, independent) · Sequential (pipeline) · Handoff (dynamic transfer, one at a time) · Group chat (shared thread + manager) · Magentic (planning manager + task ledger)",
+         "Workflow anatomy: <strong>executors</strong> (agents or logic) + <strong>edges</strong> (direct · conditional · switch-case · <strong>fan-out</strong> · <strong>fan-in</strong>) + events (WorkflowStarted/Output/Error, ExecutorInvoke/Complete)",
+         "Builders: ConcurrentBuilder · SequentialBuilder · GroupChatBuilder · MagenticBuilder — <strong>unified interface</strong>, swap patterns without rewriting agents",
+         "Group chat manager each round: <strong>should_request_user_input → should_terminate → filter_results → select_next_agent</strong> · maker-checker loop · keep ≤3 agents",
+         "<strong>Magentic</strong>: manager plans, delegates, adapts · maintains a <strong>task ledger</strong> (goals, subgoals, plans) · for open-ended problems · planning &gt; speed",
+         "Caveats: concurrent = no shared context, conflicts to resolve · sequential = no backtracking · handoff = beware infinite handoff loops"],
+      x:"Scenario → pattern: parallel brainstorm/vote → <b>concurrent</b> · draft→review→polish in order → <b>sequential</b> · route to the right specialist as needs emerge → <b>handoff</b> · debate / maker-checker in one thread → <b>group chat</b> · open-ended problem needing a documented evolving plan → <b>Magentic</b>."}
+    ,{id:"m15",path:"p2",n:15,title:"Discover AI agents with A2A",slug:"discover-agents-with-a2a",
+      b:["<strong>A2A protocol</strong> = standard for <strong>agent ↔ agent</strong> discovery, communication, and coordinated tasks — works across vendors + platforms, auth built in",
+         "<strong>A2A vs MCP</strong>: MCP connects an agent to <strong>tools/knowledge</strong> · A2A connects an agent to <strong>other agents</strong> (each keeps its own LLM)",
+         "<strong>Agent Skill</strong> = one capability: id · name · description · tags · examples · input/output modes",
+         "<strong>Agent Card</strong> = digital business card at <strong>/.well-known/agent-card.json</strong>: identity · endpoint URL · capabilities (streaming, push) · skills · auth requirements",
+         "<strong>Agent Executor</strong> = the bridge to your logic: <strong>execute()</strong> + <strong>cancel()</strong> · reads RequestContext, replies via EventQueue",
+         "Server = Agent Card + request handler + <strong>Task Store</strong> + ASGI app (Starlette + Uvicorn) · client: fetch card → send streaming/non-streaming requests → handle direct messages or task objects"],
+      x:"The classic question is <b>A2A vs MCP</b>: \"connect to tools + knowledge\" → MCP · \"discover and delegate to remote agents\" → A2A. Discovery = fetch the <b>Agent Card</b> from the well-known endpoint."}
+    /*@MODS_P2@*/
+    ,{id:"m16",path:"p3",n:16,title:"Analyze text with Azure Language",slug:"analyze-text-ai-language",
+      b:["Current core capabilities: <strong>language detection · named entity recognition · PII extraction + redaction</strong> (+ Text Analytics for Health)",
+         "⚠ <strong>Deprecated</strong> (kept for existing apps): sentiment analysis · summarization · key phrases",
+         "Client: <strong>TextAnalyticsClient</strong> (azure-ai-textanalytics) → key or <strong>Entra ID</strong> (production) · endpoint = Foundry resource endpoint",
+         "Handy: project endpoint = resource endpoint + <strong>/api/projects/{name}</strong> · project key = resource key",
+         "Detection limits: <strong>5,120 chars per document · 1,000 docs per collection</strong> · confidence 0–1 · mixed language → predominant one, lower score · unparseable → (unknown), score 0",
+         "NER categories: Person · Location · DateTime · Organization · Address · Email · URL…",
+         "PII: recognize_pii_entities → categories + confidence + <strong>redacted_text</strong> (asterisk-masked)"],
+      x:"Know the numbers: <b>5,120 chars/doc, 1,000 docs</b>. \"Remove names + emails before sharing\" → <b>PII redaction (redacted_text)</b>. Twist to watch: sentiment/summarization now <b>deprecated</b> in Azure Language."}
+    ,{id:"m17",path:"p3",n:17,title:"Text analysis agent with the Language MCP server",slug:"develop-text-analysis-agent-language-mcp",
+      b:["<strong>Azure Language MCP server</strong> (preview) = Language capabilities as agent tools: detection · NER · <strong>PII redaction</strong> · Text Analytics for Health",
+         "MCP roles: <strong>Host</strong> (runs the agent) · <strong>Client</strong> (manages connections) · <strong>Server</strong> (exposes tools)",
+         "Endpoint: https://{resource}.<strong>cognitiveservices.azure.com</strong>/language/mcp?api-version=… — the old Cognitive Services domain lives on",
+         "Connect via portal Tools page (key auth: Ocp-Apim-Subscription-Key) or in code: <strong>MCPTool</strong>(server_label, server_url, require_approval, allowed_tools)",
+         "Multi-task prompt → agent calls <strong>several tools in one turn</strong> and synthesizes · verify calls in the <strong>Logs</strong> pane",
+         "Client app: AIProjectClient → get_openai_client() → responses.create with <strong>extra_body agent_reference by name</strong>"],
+      x:"\"One connection instead of per-capability integrations\" → the <b>Language MCP server</b>. Spot the legacy domain (<b>cognitiveservices.azure.com</b>) in the endpoint — old names persist in APIs."}
+    ,{id:"m18",path:"p3",n:18,title:"Develop a speech-capable generative AI app",slug:"develop-generative-ai-audio-apps",
+      b:["GenAI route to speech: <strong>multimodal models</strong> from the catalog, called via the AzureOpenAI/OpenAI client",
+         "Speech-to-text models: <strong>gpt-4o-transcribe · gpt-4o-mini-transcribe · gpt-4o-transcribe-diarize</strong> (diarize = separates speakers)",
+         "Text-to-speech models: <strong>gpt-4o-tts · gpt-4o-mini-tts</strong>",
+         "Regional availability varies — check the model availability table",
+         "Two speech routes overall: generative models (this module) vs the <strong>Azure Speech API</strong> (next module)"],
+      x:"Model-name decoding: <b>-transcribe</b> = STT · <b>-tts</b> = TTS · <b>-diarize</b> = who-said-what speaker separation."}
+    ,{id:"m19",path:"p3",n:19,title:"Create speech-enabled apps with Azure Speech",slug:"create-speech-enabled-apps",
+      b:["Azure Speech = 4 APIs: <strong>Speech to text · Text to speech · Speech Translation · Voice Live</strong> (real-time agents)",
+         "Recognition chain: <strong>SpeechConfig</strong> (endpoint + key) → <strong>AudioConfig</strong> (default = system mic, or file) → <strong>SpeechRecognizer</strong> → RecognizeOnceAsync()",
+         "Result Reason: <strong>RecognizedSpeech</strong> (+ .Text) · <strong>NoMatch</strong> (audio parsed, no speech) · <strong>Canceled</strong> (check CancellationReason)",
+         "Synthesis chain: SpeechConfig → AudioConfig (default speaker · file · <strong>None → raw stream</strong>) → <strong>SpeechSynthesizer</strong> → SpeakTextAsync() → SynthesizingAudioCompleted + AudioData",
+         "Customize: <strong>voice</strong> (en-US-AriaNeural…) · output format (file type, sample rate, bit depth)",
+         "<strong>SSML</strong>: speaking styles (cheerful) · pauses · <strong>phonemes</strong> (\"SQL\"→\"sequel\") · prosody (pitch/rate) · say-as (date, phone) · insert audio · speak_ssml_async()",
+         "Package = azure-<strong>cognitiveservices</strong>-speech — another legacy name survivor"],
+      x:"Object-chain questions are classic: config + audio config → recognizer/synthesizer. Reason enums matter (<b>NoMatch</b> vs Canceled). \"Control pronunciation / style / pauses\" → <b>SSML</b>. \"Real-time voice agent\" → <b>Voice Live</b>."}
+    ,{id:"m20",path:"p3",n:20,title:"Develop a speech agent with the Speech MCP server",slug:"develop-speech-agent-speech-mcp",
+      b:["Speech MCP server (preview) exposes 2 tools: <strong>Recognize</strong> (STT: WAV, MP3, OGG, FLAC, MP4… + language, <strong>phrase hints</strong>, profanity filtering) · <strong>Synthesize</strong> (neural-voice TTS → WAV/MP3)",
+         "Unlike text tools it needs an <strong>Azure Storage account</strong>: TTS writes audio to a Blob container (response = link) · STT reads a public URL or <strong>SAS URL</strong>",
+         "Connection config: resource name + key (Ocp-Apim-Subscription-Key) + <strong>X-Blob-Container-Url</strong> (SAS with Read/Add/Create/Write/List)",
+         "<strong>SAS hygiene</strong>: treat as secret — shortest expiry, single container, never in code, prompts, or transcripts",
+         "Prompt-level options: voice (en-GB-SoniaNeural…) · language (es-ES) · phrase hints for domain terms · profanity masked/removed/raw"],
+      x:"The differentiator vs the Language MCP server: Speech MCP <b>requires Blob storage + a SAS URL</b> because it moves audio files. \"Improve recognition of product names\" → <b>phrase hints</b>."}
+    ,{id:"m21",path:"p3",n:21,title:"Develop a Voice Live agent",slug:"develop-voice-live-agent",
+      b:["<strong>Voice Live API</strong> = low-latency, bidirectional <strong>speech-to-speech</strong> over <strong>WebSocket</strong>, driven by JSON client/server events",
+         "Features: PCM16 + G.711 audio · OpenAI + Azure custom voices · <strong>WebRTC avatar streaming</strong> · noise reduction + echo cancellation · <strong>Azure semantic VAD</strong> for turn detection",
+         "Auth: <strong>Entra keyless recommended</strong> — Cognitive Services User role + token scope https://ai.azure.com/.default (Bearer) · api-key header not available in browsers (query param is)",
+         "2 endpoints: <strong>project</strong> wss://…services.ai.azure.com/voice-live/realtime (agent_id + project_id) · <strong>model</strong> wss://…cognitiveservices.azure.com/… (model param)",
+         "Events — client: <strong>session.update</strong> · input_audio_buffer.append · response.create · server: session.updated · response.done · conversation.item.created",
+         "<strong>Barge-in</strong>: on INPUT_AUDIO_BUFFER_SPEECH_STARTED, stop playback + cancel the response — or the agent talks over the user",
+         "Python SDK azure-ai-voicelive = <strong>async-only</strong> (v1.0.0+) · pattern: VoiceAssistant + AudioProcessor classes · agents &gt; raw models: instructions live in the agent, connect by agent_id"],
+      x:"\"Real-time voice conversation\" → Voice Live over <b>WebSocket</b>. Interruption handling (stop playback on speech-started) is the scenario to know. Keyless auth = <b>Cognitive Services User</b> role + ai.azure.com/.default scope."}
+    ,{id:"m22",path:"p3",n:22,title:"Translate text and speech",slug:"translate-text-speech",
+      b:["2 translation tools: <strong>Azure Translator</strong> (text + documents, 90+ languages, custom models) · <strong>Azure Speech</strong> (spoken input → multi-language text/speech)",
+         "Translator endpoints: global api.cognitive.microsofttranslator.com · regional (nam / apc / eur) · your Foundry resource endpoint · connect by endpoint <strong>or region</strong>",
+         "translate(): omit <strong>from_language → auto-detect</strong> · <strong>to_language = a LIST</strong> → many targets in one call · document translation preserves structure",
+         "<strong>Transliterate ≠ translate</strong>: convert script, not language — Jpan → Latn turns こんにちは into \"Kon'nichiwa\"",
+         "Speech translation chain: <strong>SpeechTranslationConfig</strong> (speech_recognition_language + add_target_language ×N) + AudioConfig → <strong>TranslationRecognizer</strong>",
+         "Speech-to-speech: <strong>manual synthesis</strong> (loop translations → SpeechSynthesizer — works multi-language) · <strong>event-based synthesis</strong> (Synthesizing event → GetAudio() — <strong>1:1 only</strong>, voice preset in config)"],
+      x:"Traps: \"same language, different writing system\" → <b>transliterate</b> · \"translate into several languages at once\" → to_language list / add_target_language · <b>event-based synthesis can't do multi-language</b> — it's single-target."}
+    /*@MODS_P3@*/
+    ,{id:"m23",path:"p4",n:23,title:"Develop a vision-enabled generative AI app",slug:"develop-generative-ai-vision-apps",
+      b:["Multimodal models take image + text input: <strong>Phi-4-multimodal-instruct · gpt-4.1 · gpt-4.1-mini</strong> · test with uploads in the chat playground",
+         "Vision prompt = <strong>multi-part user message</strong>: a text content item + an image content item",
+         "Image goes in as a <strong>web URL</strong> or <strong>Base64 data URL</strong> (data:image/jpeg;base64,…)",
+         "Works through both the Responses API and ChatCompletions",
+         "Models can <strong>reason</strong> over visuals — interpret a chart, judge whether an item is damaged — not just label objects"],
+      x:"\"Send a local photo to the model\" → encode to a <b>base64 data URL</b> inside a multi-part message. \"Answer questions grounded in an image\" → multimodal chat, no separate vision service needed."}
+    ,{id:"m24",path:"p4",n:24,title:"Generate images with AI",slug:"generate-images-azure-openai",
+      b:["Image-generation models: OpenAI <strong>gpt-image-1</strong> series · Black Forest Labs <strong>FLUX</strong> series · find via catalog filter \"text to image\"",
+         "Output is <strong>original generated content</strong> — not retrieved from any image catalog",
+         "Playground supports resolution choice + a <strong>reference image</strong> to guide output",
+         "Code: client.<strong>images.generate</strong>(model, prompt, n, size=\"1024x1024\") → binary image stream"],
+      x:"Name recognition: <b>gpt-image-1</b> and <b>FLUX</b> = image generation. Remember images are <b>created, not searched</b> — a favorite distractor."}
+    ,{id:"m25",path:"p4",n:25,title:"Generate videos with Sora 2",slug:"generate-video-with-foundry",
+      b:["<strong>Sora 2</strong> (+ sora-2-pro): <strong>text→video · image→video</strong> (input_reference = first frame) · <strong>remix</strong> existing videos · audio generation",
+         "Formats: <strong>1280×720</strong> landscape · <strong>720×1280</strong> portrait · duration <strong>4 / 8 / 12 s</strong> (default 4)",
+         "<strong>Async pattern</strong>: videos.create → poll status (queued → in_progress → completed / failed / cancelled) → download · generation takes 1–5 min",
+         "Limits: <strong>2 concurrent jobs</strong> · finished videos downloadable for <strong>24 h</strong> · reference image must <strong>match target resolution exactly</strong> · reference images with <strong>human faces rejected</strong> · content filter applies",
+         "Prompt like a cinematographer: framing · subject · <strong>action in beats</strong> · lighting · style · shorter clips follow instructions better (2×4s &gt; 1×8s)",
+         "videos.remix(video_id, prompt) — describe <strong>one focused change</strong> (\"same shot, switch to 85mm lens\")"],
+      x:"Numbers to memorize: <b>4/8/12 s · 2 concurrent jobs · 24 h download window</b> · reference image = exact resolution match, no faces. Video generation is always <b>asynchronous</b>."}
+    ,{id:"m26",path:"p4",n:26,title:"Analyze images with Content Understanding",slug:"analyze-images-with-content-understanding",
+      b:["Content Understanding = genAI extraction: <strong>define a schema → get structured data</strong> from docs, images, video, audio",
+         "Pipeline: <strong>analyzer</strong> → content extraction (OCR · transcription · layout) → <strong>field extraction</strong> (your schema) → <strong>confidence scores</strong> (0–1) → <strong>grounding</strong> (where each value came from)",
+         "Output: <strong>JSON</strong> for automation · <strong>Markdown</strong> for search + RAG",
+         "Prebuilt image analyzers: <strong>prebuilt-image · prebuilt-receipt · prebuilt-invoice · prebuilt-idDocument</strong> · or custom (baseAnalyzerId + field schema)",
+         "3 field methods: <strong>extract</strong> (verbatim) · <strong>classify</strong> (pick from categories) · <strong>generate</strong> (create e.g. a description)",
+         "Confidence bands: <strong>≥0.9 automate · 0.7–0.9 review if critical · &lt;0.7 manual</strong> · formats: JPEG, PNG, BMP, TIFF, HEIF, PDF"],
+      x:"Field-method picker: \"pull the serial number as printed\" → <b>extract</b> · \"damaged or undamaged?\" → <b>classify</b> · \"write a caption\" → <b>generate</b>. Confidence routing (auto vs human review) is a favorite scenario."}
+    ,{id:"m27",path:"p4",n:27,title:"Create a multimodal analysis solution with Content Understanding",slug:"analyze-content-ai",
+      b:["One service, all modalities: <strong>documents/forms · images · audio · video</strong> — consistent build process",
+         "Develop in: Foundry portal (some prebuilt only) · <strong>Content Understanding Studio</strong> (custom analyzers) · API/SDK",
+         "Build flow: Foundry resource → <strong>define schema by example</strong> (sample file + template, minimal training data, optional explicit labels) → <strong>build analyzer</strong> → analyze new content",
+         "Studio project auto-provisions <strong>storage + key vault</strong> · region support is limited — check availability",
+         "Scenarios: invoice fields (docs) · defect detection (images) · call summaries + sentiment (audio) · activity detection (video)",
+         "Refine schemas into <strong>new named versions</strong> after building"],
+      x:"\"Where do I create and test a CUSTOM analyzer?\" → <b>Content Understanding Studio</b> (portal only exposes certain prebuilt models)."}
+    ,{id:"m28",path:"p4",n:28,title:"Create a Content Understanding client application",slug:"analyze-content-ai-api",
+      b:["Client needs: resource <strong>endpoint + key</strong> (or Entra via the project) · pip install <strong>azure-ai-contentunderstanding</strong> (Python ≥3.9)",
+         "⚠ Prereq: the resource needs default model deployments — <strong>GPT-4.1 + GPT-4.1-mini + text-embedding-3-large</strong>",
+         "Create analyzer via JSON definition (description · <strong>baseAnalyzerId</strong> · config · fieldSchema) → SDK begin_create_analyzer or REST <strong>PUT</strong> (+ Operation-Location callback)",
+         "Analyze: POST …/contentunderstanding/analyzers/{name}<strong>:analyze</strong> with a URL · binary data → <strong>analyzeBinary</strong>",
+         "<strong>Async</strong>: response = operation ID → poll GET analyzerResults until Succeeded · SDK's begin_analyze returns a <strong>poller</strong> — .result() polls for you",
+         "Results: typed <strong>fields</strong> (valueString…) + <strong>OCR layout</strong> (words, lines, paragraphs, positions) + markdown"],
+      x:"Two async traps: URL input → <b>:analyze</b>, raw bytes → <b>analyzeBinary</b>; and everything returns an <b>operation ID you poll</b> (SDK poller hides it). Don't forget the required model deployments."}
+    ,{id:"m29",path:"p4",n:29,title:"Extract data with Azure Document Intelligence",slug:"extract-data-with-document-intelligence",
+      b:["DI = OCR + deep learning → <strong>text, key-value pairs, selection marks, tables</strong> with bounding boxes, returned as structured JSON",
+         "3 model families: <strong>document analysis</strong> (read · layout) · <strong>prebuilt</strong> (invoice, receipt, bank statement, pay stub, contract, US tax, mortgage, ID document…) · <strong>custom</strong> (template · neural · classifier · composed)",
+         "<strong>read</strong> = text + language + handwritten/printed flag · <strong>layout</strong> adds tables, selection marks, structure (+ optional key-value pairs) · old \"general document\" model → <strong>deprecated, folded into layout</strong>",
+         "<strong>Template vs neural</strong>: template = fixed layout, trains in minutes, 100+ languages, cheap · neural = varying/semi-structured layouts, higher accuracy, longer + costlier, overlapping fields + signature detection",
+         "Custom training: <strong>≥5–6 labeled samples</strong> in Blob (+ ocr.json, labels.json, fields.json + SAS) → Build model · Studio does labeling visually (needs <strong>CORS</strong> on storage)",
+         "<strong>Composed model</strong> = several customs behind a classifier — routes each doc to the right model",
+         "Input limits: JPEG/PNG/BMP/PDF/TIFF (read also Office) · &lt;500 MB standard / 4 MB free · 50×50 → 10,000×10,000 px · PDF ≤ 17×17 in, not password-protected",
+         "Add-ons (some premium): high-res · formulas · fonts · <strong>barcodes</strong> · searchable PDF · query fields · Studio at documentintelligence.ai.azure.com"],
+      x:"Model picker: fixed-layout forms → <b>template</b> · vendor-varying invoices → <b>neural</b> · multiple form types in one stream → <b>composed + classifier</b> · just text/tables → <b>read / layout</b>. Memorize the 5–6-sample minimum."}
+    ,{id:"m30",path:"p4",n:30,title:"Create a knowledge mining solution with Azure AI Search",slug:"ai-knowldge-mining",
+      b:["AI Search 3 jobs: <strong>enterprise search · RAG grounding (vector indexes) · knowledge mining</strong>",
+         "Pipeline: <strong>data source → indexer</strong> (document cracking) → <strong>skillset enrichment</strong> → populated <strong>index</strong> (+ optional knowledge store)",
+         "Docs build hierarchically: content + metadata + <strong>normalized_images</strong> → each skill adds fields (language, per-image OCR Text, merged_content)",
+         "<strong>Built-in skills</strong> (need attached same-region Foundry Tools resource; free built-in capped at 20 docs): language · entities · key phrases · translation · PII · OCR · image captions/tags · <strong>custom skills</strong> = your Azure Function (e.g. wrap Document Intelligence)",
+         "Index field attributes: <strong>key · searchable · filterable · sortable · facetable · retrievable</strong>",
+         "Queries: Lucene <strong>simple vs full</strong> syntax · searchMode <strong>Any/All</strong> · stages: parse → lexical analysis → retrieval → <strong>TF/IDF scoring</strong>",
+         "Filters: OData <strong>$filter (case-sensitive!)</strong> · <strong>facets</strong> = UI filter options from facetable fields · $orderby overrides relevance sort",
+         "<strong>Knowledge store</strong> = projections of enriched data: JSON objects · tables · image files — defined in the skillset"],
+      x:"Attribute matching is the classic: \"filter by it\" → <b>filterable</b> · \"show as clickable filter options\" → <b>facetable</b> · \"order by it\" → sortable. \"Save enriched output as tables for analytics\" → <b>knowledge store projections</b>."}
+    /*@MODS_P4@*/
+  ];
+  function renderTopics(){
+    var host=document.getElementById("pathTopics"); if(!host) return; host.innerHTML="";
+    ["p1","p2","p3","p4"].forEach(function(p){
+      var mods=MODS.filter(function(m){return m.path===p&&!m.rich;});
+      if(!mods.length) return;
+      var all=MODS.filter(function(m){return m.path===p;});
+      var done=all.filter(function(m){return S.mdone[m.id];}).length;
+      var h=document.createElement("div");
+      h.className="eyebrow"; h.style.margin="26px 0 10px";
+      h.innerHTML='<span class="dot" style="background:'+PATHS[p].c+'"></span>'+PATHS[p].n+' · '+done+'/'+all.length+' done';
+      host.appendChild(h);
+      mods.forEach(function(m){
+        var c=document.createElement("div");
+        c.className="card topic";
+        c.innerHTML='<div class="topichead"><div class="grow">'
+          +'<div class="eyebrow"><span class="dot" style="background:'+PATHS[p].c+'"></span>Module '+m.n+'</div>'
+          +'<h2 class="title">'+m.title+'</h2></div>'
+          +'<button class="seenbtn mbtn'+(S.mdone[m.id]?" on":"")+'" data-mod="'+m.id+'">Done ✓</button></div>'
+          +'<ul class="short">'+m.b.map(function(x){return "<li>"+x+"</li>";}).join("")+'</ul>'
+          +(m.x?'<div class="callout"><span class="tag">Exam angle</span>'+m.x+'</div>':"")
+          +'<div class="srcline">Source: <a href="https://learn.microsoft.com/en-us/training/modules/'+m.slug+'/" target="_blank" rel="noopener">Microsoft Learn — '+m.slug+'</a></div>';
+        host.appendChild(c);
+      });
+    });
+    document.querySelectorAll(".mbtn").forEach(function(b){
+      if(b.dataset.bound) return; b.dataset.bound="1";
+      b.addEventListener("click",function(){
+        var id=b.dataset.mod;
+        if(S.mdone[id]) delete S.mdone[id]; else S.mdone[id]=1;
+        save(); renderTopics(); renderRoadmap(); stats();
+      });
+    });
+  }
+  function renderRoadmap(){
+    var host=document.getElementById("roadmap4"); if(!host) return; host.innerHTML="";
+    ["p1","p2","p3","p4"].forEach(function(p){
+      var mods=MODS.filter(function(m){return m.path===p;});
+      var done=mods.filter(function(m){return S.mdone[m.id];}).length;
+      var box=document.createElement("div");
+      box.className="dombar"+(p==="p1"?" open":"");
+      box.innerHTML='<div class="domhead"><span class="dot" style="background:'+PATHS[p].c+'"></span>'
+        +'<span class="nm">'+PATHS[p].n+'</span><span class="rng">'+done+'/'+mods.length+'</span><span class="caret">▶</span></div>'
+        +'<div class="domskills">'+mods.map(function(m){
+          return '<div class="rstep"><span class="no">'+(m.n<10?"0"+m.n:m.n)+'</span>'
+            +'<span class="t"><label style="cursor:pointer"><input type="checkbox" class="mchk" data-mod="'+m.id+'"'+(S.mdone[m.id]?" checked":"")+'> '
+            +m.title+'</label> <a href="https://learn.microsoft.com/en-us/training/modules/'+m.slug+'/" target="_blank" rel="noopener">↗</a></span></div>';
+        }).join("")+'</div>';
+      box.querySelector(".domhead").addEventListener("click",function(){ box.classList.toggle("open"); });
+      host.appendChild(box);
+    });
+    document.querySelectorAll(".mchk").forEach(function(cb){
+      cb.addEventListener("change",function(){
+        var id=cb.dataset.mod;
+        if(cb.checked) S.mdone[id]=1; else delete S.mdone[id];
+        save(); renderTopics(); renderRoadmap(); stats();
+      });
+    });
+  }
+
+  /* ---------- topics seen ---------- */
+  document.querySelectorAll(".seenbtn").forEach(function(b){
+    function paint(){ b.classList.toggle("on",!!S.seen[b.dataset.topic]); }
+    b.addEventListener("click",function(){
+      if(S.seen[b.dataset.topic]) delete S.seen[b.dataset.topic]; else S.seen[b.dataset.topic]=1;
+      save(); paint(); stats();
+    });
+    paint();
+  });
+
+  /* ---------- flashcards ---------- */
+  var DECKS={cap:"Capabilities",fnd:"Foundry",tls:"Tools",sdk:"SDKs",rai:"Responsible AI",xam:"Exam facts",p1:"GenAI apps",p2:"AI agents",p3:"Language",p4:"Vision & extraction"};
+  var CARDS=[
+    {d:"cap",f:"Generative AI",b:"LLMs generate <b>original content</b> from natural-language prompts — text, images, code. Powers chat + content creation."},
+    {d:"cap",f:"AI agent",b:"<b>LLM + Instructions + Tools</b> (“LIT”). Acts semi- or fully autonomously to automate tasks, collaborate with users + other agents."},
+    {d:"cap",f:"Natural language processing",b:"READ text: <b>classification · sentiment · summarization</b>. Statistical + task-specific models still beat LLMs on cost here."},
+    {d:"cap",f:"Computer speech",b:"HEAR + TALK: <b>speech-to-text, text-to-speech</b>, live conversation — handles noise, interruptions, accents, languages."},
+    {d:"cap",f:"Computer vision",b:"SEE: interpret <b>images, video, live camera</b>. Example: checkout-free grocery store."},
+    {d:"cap",f:"Multimodal model",b:"Processes <b>and generates</b> multiple formats — visual input in, images/video out."},
+    {d:"cap",f:"Information extraction",b:"Pull key facts from <b>documents, forms, images, recordings</b>. Example: receipt → dates, line items, totals."},
+    {d:"cap",f:"Scenario → capability trick",b:"Find the <b>verb</b>: create / act / read / hear / see / extract → that's your capability."},
+    {d:"fnd",f:"Microsoft Foundry",b:"Azure's <b>AI development platform</b>: portal (visual) + SDK (code). Recommended for all but the simplest solutions."},
+    {d:"fnd",f:"Foundry project",b:"Your <b>workspace</b>: resource connections, data, code, assets. Belongs to exactly <b>one</b> Foundry resource."},
+    {d:"fnd",f:"Foundry resource",b:"Azure resource that <b>hosts projects</b> — provides compute, data storage, AI tools. One resource → many projects, one <b>default</b>."},
+    {d:"fnd",f:"Project assets — M·A·T·K",b:"<b>M</b>odels · <b>A</b>gents · <b>T</b>ools · <b>K</b>nowledge."},
+    {d:"fnd",f:"Foundry Models",b:"The <b>model catalog</b>: OpenAI + Microsoft + partner models. Deploy → consume via endpoints."},
+    {d:"fnd",f:"Two model endpoints",b:"<b>Project endpoint</b> → Foundry APIs/SDKs · <b>Azure OpenAI endpoint</b> → OpenAI APIs/SDKs."},
+    {d:"fnd",f:"Foundry Agent Service",b:"The service agents are <b>developed and consumed</b> through, via the project endpoint."},
+    {d:"fnd",f:"Foundry IQ",b:"<b>One central, MCP-based knowledge connection</b> per project — grounds prompts in multiple knowledge sources."},
+    {d:"fnd",f:"MCP",b:"<b>Model Context Protocol</b> — the standard for wiring agents to custom + third-party tools and knowledge."},
+    {d:"fnd",f:"Classic project",b:"The <b>older, hub-based</b> Foundry architecture (hub + attached resources). New projects: Foundry resource type."},
+    {d:"tls",f:"Foundry Tools (concept)",b:"<b>Prebuilt APIs + models</b> for common AI tasks. More <b>cost-effective + predictable</b> than genAI-only. Hosted in your Foundry resource."},
+    {d:"tls",f:"Azure Language",b:"Text analysis: <b>entities · sentiment · summarization</b> + conversational models + question answering."},
+    {d:"tls",f:"Azure Speech",b:"<b>Text-to-speech, speech-to-text</b>, real-time live speech for conversational apps + agents."},
+    {d:"tls",f:"Azure Translator",b:"<b>Translate text</b> between a large number of languages."},
+    {d:"tls",f:"Azure Document Intelligence",b:"Extract <b>fields from invoices, receipts, forms</b> — prebuilt or custom models."},
+    {d:"tls",f:"Azure Content Understanding",b:"<b>Multimodal</b> extraction — forms, documents, images, <b>videos, audio</b> streams."},
+    {d:"tls",f:"Name history",b:"Cognitive Services → Azure AI Services → <b>Foundry Tools</b>. Old names survive in APIs + SDKs."},
+    {d:"sdk",f:"Foundry portal",b:"<b>No-code workspace</b>: deploy + test models, build agents, MCP connections, resource config, keys."},
+    {d:"sdk",f:"Microsoft Foundry SDK",b:"Code against <b>projects</b>: agents, Foundry IQ, asset management, <b>automation + CI/CD</b>."},
+    {d:"sdk",f:"The OpenAI API",b:"Build chat apps with <b>OpenAI syntax</b> against Foundry models that support it."},
+    {d:"sdk",f:"Foundry Tools SDKs",b:"<b>Per-service client libraries</b> (many languages) — or plain REST APIs."},
+    {d:"sdk",f:"Foundry Toolkit (VS Code)",b:"Extension: browse project resources · deploy models · <b>playgrounds</b> · YAML/visual <b>agent designer</b> · integration codegen."},
+    {d:"sdk",f:"Languages you can use",b:"<b>C#, Python, Node, TypeScript, Java</b>, more. Exam AI-103 leans <b>Python</b>."},
+    {d:"rai",f:"The 6 principles",b:"<b>Fairness · Reliability &amp; safety · Privacy &amp; security · Inclusiveness · Transparency · Accountability</b>."},
+    {d:"rai",f:"Fairness",b:"Treat all groups equally — no bias by gender, ethnicity… Check <b>training data + per-group performance from the start</b>. (loan approvals)"},
+    {d:"rai",f:"Reliability & safety",b:"<b>Rigorous testing</b> + deployment management · respect the <b>probabilistic</b> nature → confidence <b>thresholds</b>. (autonomous vehicles, diagnosis)"},
+    {d:"rai",f:"Privacy & security",b:"Protect <b>training data AND production data</b> — safeguards for personal details end-to-end."},
+    {d:"rai",f:"Inclusiveness",b:"AI should <b>empower everyone</b> — bring <b>diverse input</b> into design, dev, and testing."},
+    {d:"rai",f:"Transparency",b:"Users know the system's <b>purpose, how it works, its limitations</b>, confidence scores, and how their data is used."},
+    {d:"rai",f:"Accountability",b:"<b>People answer for AI</b> — work inside a <b>governance framework</b> meeting responsible + legal standards."},
+    {d:"rai",f:"3-pair memory trick",b:"<b>People</b>: Fairness + Inclusiveness · <b>System</b>: Reliability + Privacy · <b>Trust</b>: Transparency + Accountability."},
+    {d:"xam",f:"Your exam",b:"<b>AI-103 · Developing AI Apps and Agents on Azure</b> — replaced AI-102 (retired 2026-06-30)."},
+    {d:"xam",f:"Your certification",b:"Microsoft Certified: <b>Azure AI Apps and Agents Developer Associate</b>."},
+    {d:"xam",f:"Exam logistics",b:"<b>120 min</b> · pass ≥ <b>700/1000</b> · proctored (Pearson VUE) · fail → retake after 24 h."},
+    {d:"xam",f:"Heaviest domain",b:"<b>Implement generative AI and agentic solutions: 30–35%</b> — a third of the exam."},
+    {d:"xam",f:"All 5 domain weights",b:"Plan &amp; manage <b>25–30</b> · GenAI + agents <b>30–35</b> · Vision <b>10–15</b> · Text <b>10–15</b> · Info extraction <b>10–15</b>."},
+    {d:"xam",f:"This module covers…",b:"Foundations of <b>Plan &amp; manage</b> (services, Foundry, RAI) — the <b>25–30%</b> domain. Next modules go deeper."}
+    ,{d:"p1",f:"LLM vs SLM",b:"<b>LLM</b> = deep reasoning, complex generation (GPT-5, Llama 70B). <b>SLM</b> = fast + cheap + edge-capable (Phi-4, Llama 8B). Pick SLM when speed/cost beat max capability."},
+    {d:"p1",f:"Embedding models",b:"Convert text → <b>numeric vectors</b> for meaning-based matching: semantic search, recommendations, <b>RAG</b>. (Ada, Cohere)"},
+    {d:"p1",f:"Quality index",b:"0–1 average across benchmark datasets: MMLU-Pro (knowledge), HumanEval+ (code), MATH, GPQA… <b>higher = better</b>."},
+    {d:"p1",f:"Safety benchmarks",b:"<b>HarmBench ASR</b>: attack success rate — <b>lower = safer</b> · <b>ToxiGen F1</b>: hate-speech detection — higher = better · WMDP: dangerous-domain knowledge."},
+    {d:"p1",f:"Cost benchmark",b:"Price per <b>1M tokens</b>; estimated cost blends input:output at <b>3:1</b>. Lower = cheaper."},
+    {d:"p1",f:"TTFT + tokens/sec",b:"<b>Time to first token</b> = streaming responsiveness (lower better) · <b>generated tokens/sec</b> = throughput (higher better). The leaderboard's two performance numbers."},
+    {d:"p1",f:"Global Standard deployment",b:"The <b>default</b>: any region, pay-per-token, <b>highest quota</b>. Use unless you have a specific reason not to."},
+    {d:"p1",f:"Provisioned (PTU) deployment",b:"<b>Reserved throughput units</b> → predictable performance for steady high-volume production. Global, Data Zone, or Regional flavors."},
+    {d:"p1",f:"Batch deployment",b:"<b>50% discount</b> for large <b>asynchronous</b> jobs completing within <b>24 h</b>. Not for interactive apps."},
+    {d:"p1",f:"Groundedness metric",b:"Is the response <b>based on the provided context</b> rather than invented? Groundedness <b>Pro</b> = binary grounded/not."},
+    {d:"p1",f:"NLP metrics (need ground truth)",b:"<b>F1</b> word overlap · <b>BLEU</b> translation · <b>ROUGE</b> summarization · <b>METEOR</b> adds synonyms/stemming. Use when a correct answer exists."}
+    ,{d:"p1",f:"Responses API",b:"<b>Recommended</b> for new dev: <b>stateful</b> multi-turn chat via previous_response_id · unifies ChatCompletions + Assistants · works with Foundry direct models (Phi, DeepSeek…)."},
+    {d:"p1",f:"ChatCompletions API",b:"The classic, works everywhere. <b>Stateless</b> — your code resends the whole messages[] history each turn."},
+    {d:"p1",f:"AIProjectClient",b:"Foundry SDK entry point (azure-ai-projects): resource <b>connections, config, tracing, datasets</b> · get_openai_client() returns the chat client."},
+    {d:"p1",f:"Foundry SDK or OpenAI SDK?",b:"Agents, evaluations, tracing, Foundry-specific → <b>Foundry SDK</b>. Max OpenAI compatibility + portability → <b>OpenAI SDK</b>. You can use both together."},
+    {d:"p1",f:"Production authentication",b:"<b>Microsoft Entra ID</b> (DefaultAzureCredential). API keys: store in <b>Key Vault</b>, never in code."},
+    {d:"p1",f:"temperature · top_p · max_output_tokens",b:"<b>temperature</b> 0–2 = randomness/creativity · <b>top_p</b> = nucleus-sampling alternative · <b>max_output_tokens</b> = response length cap."},
+    {d:"p1",f:"Streaming responses",b:"stream=True → output arrives <b>incrementally</b> (no frozen UI). Listen for response.completed to capture the response id."},
+    {d:"p1",f:"What fills the context window?",b:"Instructions + current prompt + <b>conversation history</b> + tool schemas + tool outputs + retrieved docs — all concatenated + tokenized on <b>every request</b>. History isn't free."}
+    ,{d:"p1",f:"Tool calling (Responses API)",b:"List tools in <b>tools[]</b> of responses.create(). The <b>model chooses</b> when and which to call — instructions guide the choice."},
+    {d:"p1",f:"code_interpreter",b:"<b>Sandboxed Python</b> runtime: writes + runs code, sees errors and retries. pandas/numpy preloaded. <b>No network access</b>, timeouts + memory limits apply."},
+    {d:"p1",f:"web_search tool",b:"Model issues live search queries → answers grounded in <b>current</b> web content. Use for pricing, news, anything post-training-data."},
+    {d:"p1",f:"file_search tool",b:"Semantic retrieval over <b>your uploaded files</b> in a <b>vector store</b>, with citations. Small-scale RAG; enterprise multi-store → <b>Foundry IQ</b>."},
+    {d:"p1",f:"function tool — the loop",b:"Define → model evaluates → model <b>emits a structured call</b> → <b>your app executes</b> → return function_call_output → model completes. Validate inputs, log usage."},
+    {d:"p1",f:"Prompt tools vs Foundry Tools",b:"tools[] in a Responses API call = model capabilities (code, search, functions). <b>Foundry Tools</b> = prebuilt Azure AI services (Language, Speech…). Different things."},
+    {d:"p1",f:"From tools to agents",b:"An <b>agent</b> = model + instructions + tools <b>persisted</b> as a named entity (Foundry Agent Service) instead of configured per-request in your app."}
+    ,{d:"p1",f:"The 3 optimization levers",b:"<b>Prompts</b> = behavior, cheap + instant · <b>RAG</b> = knowledge + accuracy · <b>Fine-tuning</b> = consistency, highest cost. Complementary — layer them, don't choose one."},
+    {d:"p1",f:"Zero / one / few-shot",b:"Number of worked <b>examples in the prompt</b>: none / one / several. Examples teach the output pattern without training."},
+    {d:"p1",f:"Chain-of-thought prompting",b:"Ask the model to reason <b>step by step</b> → fewer logic errors, verifiable. For <b>non-reasoning models</b> — o-series reasoning models do it internally."},
+    {d:"p1",f:"Recency bias",b:"Text near the <b>end</b> of a prompt carries extra weight — repeat the key instruction at the end if the model keeps drifting."},
+    {d:"p1",f:"RAG in 3 steps",b:"<b>Retrieve</b> relevant data → <b>Augment</b> the prompt with it → <b>Generate</b> a grounded answer. Fixes invented domain facts + training-cutoff gaps without retraining."},
+    {d:"p1",f:"Embeddings + cosine similarity",b:"Text → <b>vector</b> of floats capturing meaning. Cosine similarity near <b>1</b> = semantically close. The math behind vector search."},
+    {d:"p1",f:"Azure AI Search — 4 search modes",b:"<b>Keyword</b> (exact terms) · <b>semantic</b> (meaning models) · <b>vector</b> (embeddings) · <b>hybrid</b> = all combined — <b>recommended for genAI apps</b>."},
+    {d:"p1",f:"LoRA",b:"Low-Rank Adaptation: fine-tuning updates only a <b>small subset of weights</b> → faster + cheaper than full retraining, quality preserved."},
+    {d:"p1",f:"SFT · RFT · DPO",b:"<b>SFT</b>: labeled prompt→response pairs · <b>RFT</b>: iterative graded feedback (reasoning quality) · <b>DPO</b>: preferred vs non-preferred pairs — lighter than classic RL. Combinable (SFT then DPO)."},
+    {d:"p1",f:"Fine-tuning training data",b:"<b>JSONL</b> conversations (system + user + assistant). Consistent system message (blank → worse accuracy — reuse it at inference), hundreds+ representative examples."},
+    {d:"p1",f:"When to fine-tune",b:"Brand voice / strict format the prompts can't hold · shrink long prompts · <b>distill</b> big model → small · sharpen tool-calling. Always measure a <b>baseline first</b>."}
+    ,{d:"p1",f:"The 4 Ms of responsible genAI",b:"<b>Map</b> potential harms → <b>Measure</b> their presence → <b>Mitigate</b> across layers → <b>Manage</b> deployment + operations. Aligned with the NIST AI Risk Management Framework."},
+    {d:"p1",f:"Map stage — 4 steps",b:"<b>Identify</b> harms (transparency notes, system cards) → <b>prioritize</b> by likelihood × impact → <b>test/verify</b> (red team) → <b>document + share</b>."},
+    {d:"p1",f:"Red teaming",b:"Testers <b>deliberately attack</b> the solution to elicit harmful output (e.g. request poison recipes). Extends classic security red-teaming to genAI."},
+    {d:"p1",f:"Measuring harms",b:"Harm-eliciting prompts → collect outputs → categorize with <b>strict predefined criteria</b> → baseline. Start <b>manual</b>, scale with an automated classifier, keep periodic manual validation."},
+    {d:"p1",f:"4 mitigation layers",b:"Inside-out: <b>Model</b> (right-size, fine-tune) → <b>Safety system</b> (content filters, prompt shields) → <b>System message + grounding</b> (RAG) → <b>User experience</b> (input limits, transparency)."},
+    {d:"p1",f:"Content filters (guardrails)",b:"<b>4 severity levels</b>: safe · low · medium · high across <b>5 categories</b>: hate &amp; fairness · sexual · violence · self-harm · task-adherence."},
+    {d:"p1",f:"Prompt shields",b:"Abuse-detection algorithms in Foundry guardrails — catch <b>jailbreaks</b>: users systematically trying to subvert the system prompt."},
+    {d:"p1",f:"Responsible release checklist",b:"Reviews: <b>legal · privacy · security · accessibility</b> · phased rollout · incident + <b>rollback</b> plans · kill-switch for harmful responses · block abusive users · feedback channel + telemetry."}
+    ,{d:"p2",f:"Foundry Agent Service",b:"Fully managed platform: build, deploy, scale agents without infra. Handles the <b>whole tool-calling lifecycle</b> automatically; conversation state via Responses API; agents in &lt;50 lines of code."},
+    {d:"p2",f:"Declarative vs hosted agents",b:"<b>Declarative</b> = defined by config: prompt-based (model+instructions+tools) or <b>workflow</b> (multi-agent YAML). <b>Hosted</b> = containerized code you write, platform-hosted."},
+    {d:"p2",f:"Agent tool catalog — 3 buckets",b:"<b>Configured</b>: ready now (Code Interpreter, File Search) · <b>Catalog</b>: add-ons (Bing Web Search, Azure AI Search, SharePoint, Fabric, Deep Research, Agent-to-Agent, MCP) · <b>Custom</b>: OpenAPI specs + your MCP servers."},
+    {d:"p2",f:"File Search vs Azure AI Search",b:"<b>File Search</b>: docs you upload → auto-indexed vector store (agent-scale RAG). <b>Azure AI Search</b>: connects to <b>existing enterprise indexes</b>."},
+    {d:"p2",f:"Deploy vs Publish",b:"<b>Deploy</b> = save agent into your project for team testing. <b>Publish</b> = create an <b>Agent Application</b>: stable external endpoint, own auth policy + Entra identity. URL survives version updates."},
+    {d:"p2",f:"Agent Application authentication",b:"<b>Entra ID only</b> — callers need the <b>Azure AI User</b> role on the Agent Application. <b>API keys are not supported.</b>"},
+    {d:"p2",f:"The publish identity trap",b:"A published agent gets a <b>new dedicated Entra identity</b> — permissions do NOT carry over. Reassign RBAC on every resource the agent touches, or tool calls fail with 403."},
+    {d:"p2",f:"Agent security risks",b:"<b>Prompt injection</b> · data leakage · privilege escalation · <b>data poisoning</b> · supply-chain plugins · runaway autonomy. Mitigate: least-privilege RBAC, input validation, <b>human-in-the-loop</b> for sensitive ops, full audit logging."},
+    {d:"p2",f:"Tool-calling lifecycle",b:"User message → agent picks needed tools → invokes with params → gets results → weaves them into the reply. All automatic — no orchestration code."}
+    ,{d:"p2",f:"4 ways to give an agent custom tools",b:"<b>Function calling</b> (your code) · <b>Azure Functions</b> (serverless + triggers/bindings) · <b>OpenAPI 3.0 tools</b> (spec-described APIs) · <b>Logic Apps</b> (low/no-code workflows)."},
+    {d:"p2",f:"OpenAPI tool authentication",b:"Three supported types: <b>anonymous · API key · managed identity</b>."},
+    {d:"p2",f:"Azure Functions as agent tools",b:"Event-driven serverless: <b>triggers</b> decide when the function runs, <b>bindings</b> wire input/output (e.g. storage queues between agent and function)."},
+    {d:"p2",f:"Who calls the custom tool?",b:"<b>The agent decides</b> — from the tool's name, description, and parameter docs. You never write explicit invocation logic. Good naming = good tool selection."},
+    {d:"p2",f:"Dynamic tool discovery (MCP)",b:"Agent queries an MCP server's <b>live catalog</b> at runtime. Add/update/remove tools centrally — <b>no agent code changes or redeploys</b>."},
+    {d:"p2",f:"MCP's 3 headline benefits",b:"<b>Dynamic discovery</b> (integrate once) · <b>LLM interoperability</b> (swap models freely) · <b>standardized security</b> (one auth pattern, not per-API keys)."},
+    {d:"p2",f:"DIY MCP pipeline",b:"<b>FastMCP</b> server exposes @mcp.tool functions (type hints + docstrings → definitions) → client <b>session.list_tools()</b> → async wrappers → FunctionTool → agent toolset."},
+    {d:"p2",f:"MCPTool parameters (Foundry)",b:"<b>server_label</b> + <b>server_url</b> required · <b>allowed_tools</b> restricts what the agent may call · <b>require_approval</b>: <b>always (default)</b> or never · update_headers for auth tokens."},
+    {d:"p2",f:"MCP approval flow",b:"Tool call needing approval → response contains <b>mcp_approval_request</b> → you send <b>mcp_approval_response</b> with approval_request_id + approve true/false."}
+    ,{d:"p2",f:"Foundry IQ",b:"Managed knowledge platform <b>built on Azure AI Search</b>: shared, domain-organized knowledge bases that <b>multiple agents reuse</b>. Improve the KB once → every connected agent benefits. Agents connect via <b>MCP</b>."},
+    {d:"p2",f:"Foundry IQ — 6 data sources",b:"<b>Azure AI Search index</b> · <b>Blob Storage</b> · <b>Web (Bing)</b> · <b>SharePoint Remote</b> · <b>SharePoint Indexed</b> · <b>OneLake</b> (Microsoft Fabric). Combine several in one knowledge base."},
+    {d:"p2",f:"SharePoint Remote vs Indexed",b:"<b>Remote</b>: real-time, always current, <b>respects SharePoint permissions</b>, no index upkeep, limited search. <b>Indexed</b>: preprocessed → faster + full Azure AI Search features, but needs index maintenance."},
+    {d:"p2",f:"Web grounding caveat",b:"Bing-powered = current public info but <b>less source control</b>. When verification matters, prefer indexed internal sources; use web as a supplement."},
+    {d:"p2",f:"Retrieval instruction contract",b:"Specify 3 things: <b>when</b> to retrieve (always, never training data) · <b>citation format</b> (exact) · <b>fallback</b> wording when the KB lacks the answer. Vague instructions = inconsistent behavior."},
+    {d:"p2",f:"Retrieval quality levers",b:"<b>Scoring profiles</b> boost fields · <b>semantic ranking</b> understands meaning · <b>custom analyzers</b> handle special content (codes, HTML, jargon)."},
+    {d:"p2",f:"Monitoring retrieval in production",b:"Track <b>citation frequency · fallback frequency · query types · retrieval accuracy</b> — then iterate instructions and KB content."}
+    ,{d:"p2",f:"Publishing an agent to Teams creates…",b:"An <b>Azure Bot Service</b> resource (routes messages) + <b>Entra ID app</b> registration + an M365 <b>publishing package</b> + discoverability in the Teams agent store."},
+    {d:"p2",f:"Shared vs Organization scope",b:"<b>Shared</b>: available instantly under \"Your agents\" — testing + small pilots. <b>Organization</b>: \"Built by your org\", tenant-wide, requires <b>M365 admin approval</b>."},
+    {d:"p2",f:"Beyond Teams — other channels",b:"Web app preview (demos) · stable API endpoint (custom apps) · Azure Bot Service channels: <b>Slack, Telegram, Twilio SMS, Facebook</b>."},
+    {d:"p2",f:"M365 Agents Toolkit",b:"Build a <b>proxy app</b> (Teams → proxy → Foundry agent) when you need custom <b>SSO</b>, middleware logic, multi-environment CI/CD, or deep debugging. Direct portal publishing covers standard cases."},
+    {d:"p2",f:"Work IQ",b:"CLI + <b>MCP server</b> that connects agents/assistants to Microsoft 365 data: <b>emails, meetings, documents, Teams messages, people</b>. Preview feature."},
+    {d:"p2",f:"Work IQ security model",b:"Access via Microsoft Graph <b>with your identity</b> — only data you already can see · nothing stored · auditable · requires <b>Copilot license + tenant admin consent</b>."},
+    {d:"p2",f:"Publishing role requirements",b:"<b>Azure AI Project Manager</b> on the project to publish · <b>Azure AI User</b> on the agent application to invoke/chat."}
+    ,{d:"p2",f:"Agent workflows",b:"Visual, declarative orchestration of <b>agents + control flow + safeguards</b> on a canvas. Same workflow exists as <b>YAML</b> for source control — both views stay in sync."},
+    {d:"p2",f:"3 workflow patterns",b:"<b>Sequential</b>: fixed step-by-step pipeline · <b>Human-in-the-loop</b>: pauses for input/approval · <b>Group chat</b>: control moves dynamically between collaborating agents."},
+    {d:"p2",f:"Workflow node families",b:"<b>Invoke</b> (run an agent) · <b>Flow</b>: If/Else, Go To, <b>For Each</b> (loops) · <b>Data</b>: Set/Reset Variable, Parse value · <b>Basic chat</b> (message/ask user) · <b>End</b>."},
+    {d:"p2",f:"Structured outputs drive routing",b:"Define a <b>JSON schema</b> for the agent's response → store in a variable → If/Else nodes branch on it. Predictable shape = reliable control flow."},
+    {d:"p2",f:"Power Fx in workflows",b:"Low-code Excel-like formulas everywhere logic lives: <b>If(Local.Confidence &gt; 0.8, \"Proceed\", \"Escalate\")</b> · Upper/Lower · Sum · IsBlank · ForAll. System variables (context) vs local variables (your data)."},
+    {d:"p2",f:"Workflow versioning",b:"Every save creates a <b>new immutable version</b> — compare, audit, roll back. Attach <b>notes</b> to nodes for future maintainers."},
+    {d:"p2",f:"Invoke a workflow from code",b:"AIProjectClient → conversations.create() → responses.create with <b>agent_reference = workflow name</b>. Stream events; for human-in-the-loop pauses, send follow-up conversation messages."}
+    ,{d:"p2",f:"Microsoft Agent Framework",b:"The next generation of <b>Semantic Kernel + AutoGen</b>: AutoGen's easy abstractions + SK's enterprise features (sessions, type safety, middleware, telemetry) + <b>graph-based multi-agent workflows</b>."},
+    {d:"p2",f:"Framework building blocks",b:"Model clients (unified providers) · <b>agent sessions</b> (conversation state) · context providers (plug-in memory) · function tools (auto-schema) · <b>MCP clients</b> · middleware hooks · workflow orchestration."},
+    {d:"p2",f:"Service-side history — who has it?",b:"<b>Yes</b>: Foundry Agent Service (recommended), Azure OpenAI Responses, OpenAI Responses. <b>No</b> (local only): ChatCompletion providers, Claude, Bedrock, GitHub Copilot, Ollama."},
+    {d:"p2",f:"Foundry agent recipe (framework)",b:"Project endpoint + model deployment name → <b>DefaultAzureCredential</b> → chat client → create agent (instructions + tools) → open a <b>session</b> → run(). Streaming or non-streaming; both expose .text."},
+    {d:"p2",f:"Registering custom tools",b:"Pass plain functions — schema generated from <b>Annotated types + docstrings</b>, or use <b>@tool</b>(name, description) with optional Pydantic model. Clear descriptions = correct tool selection."},
+    {d:"p2",f:"approval_mode",b:"Per-tool setting: agent <b>pauses and asks for human confirmation</b> before invoking. Use for irreversible, expensive, or sensitive actions."},
+    {d:"p2",f:"Agent as a tool",b:"Convert a specialist agent into a <b>function tool</b> of a coordinator agent → modular delegation, the gateway to multi-agent patterns."}
+    ,{d:"p2",f:"The 5 orchestration patterns",b:"<b>Concurrent</b> · <b>Sequential</b> · <b>Handoff</b> · <b>Group chat</b> · <b>Magentic</b>. Unified SDK interface — switch patterns without rewriting agent logic."},
+    {d:"p2",f:"Concurrent orchestration",b:"Broadcast the <b>same task to many agents at once</b>; independent results, then combine. Brainstorming, ensemble reasoning, voting/quorum. Avoid when steps depend on each other."},
+    {d:"p2",f:"Sequential orchestration",b:"Fixed <b>pipeline</b>: each agent's output feeds the next. Draft → review → polish. Avoid when you need iteration, backtracking, or parallelism."},
+    {d:"p2",f:"Handoff orchestration",b:"<b>Dynamic transfer of control</b> to the best-suited specialist — one agent at a time, route decided during processing (switch-case edges). Support escalation, expert routing. Guard against infinite handoffs."},
+    {d:"p2",f:"Group chat orchestration",b:"Agents (+ optionally a human) share <b>one conversation</b>; a <b>chat manager</b> picks who speaks next. Maker-checker loops, debates, consensus. Keep to ~3 agents or fewer."},
+    {d:"p2",f:"Group chat manager — call order",b:"Each round: <b>should_request_user_input → should_terminate → filter_results → select_next_agent</b>. Override in a custom GroupChatManager."},
+    {d:"p2",f:"Magentic orchestration",b:"A <b>Magentic manager</b> plans, delegates, adapts across specialists and maintains a <b>task ledger</b> (goals, subgoals, execution plans). For complex open-ended problems; emphasizes planning over speed."},
+    {d:"p2",f:"Workflow edges",b:"<b>Direct</b> (A→B) · <b>conditional</b> (if X) · <b>switch-case</b> (route by value) · <b>fan-out</b> (one → many in parallel) · <b>fan-in</b> (many → one aggregator)."}
+    ,{d:"p2",f:"A2A protocol",b:"Standardized <b>agent-to-agent</b> discovery, communication, and coordinated execution across vendors and platforms. Authentication is built into the protocol."},
+    {d:"p2",f:"A2A vs MCP",b:"<b>MCP</b>: agent → tools + knowledge sources. <b>A2A</b>: agent → other agents — each remote agent chooses its own LLM. Different layers, often used together."},
+    {d:"p2",f:"Agent Card",b:"Discovery document at <b>/.well-known/agent-card.json</b>: identity + version, endpoint URL, capabilities (streaming, push notifications), input/output modes, <b>skills list</b>, auth requirements."},
+    {d:"p2",f:"Agent Skill",b:"One declared capability: <b>id · name · description · tags · examples · input/output modes</b>. Well-described skills = discoverable, routable agents."},
+    {d:"p2",f:"Agent Executor",b:"Implements <b>execute()</b> (process request → events on the EventQueue) and <b>cancel()</b>. The bridge between the A2A protocol and your agent's logic."},
+    {d:"p2",f:"A2A hosting + client flow",b:"Server: Agent Card + request handler + <b>Task Store</b> + ASGI (Uvicorn). Client: fetch the card → connect → non-streaming or streaming requests → handle direct messages or <b>task-based</b> responses."}
+    ,{d:"p3",f:"Azure Language — current vs deprecated",b:"Current: <b>language detection · NER · PII extraction/redaction</b> (+ Health). <b>Deprecated</b> but still served: sentiment, summarization, key phrases."},
+    {d:"p3",f:"Language detection limits",b:"Max <b>5,120 characters per document</b>, <b>1,000 documents per collection</b>. Confidence 0–1; unparseable text → (unknown) with score 0."},
+    {d:"p3",f:"Mixed-language text",b:"Returns the language with the <b>largest share</b> of the content — at a <b>lower confidence score</b>."},
+    {d:"p3",f:"Named entity recognition",b:"Categorized entities: <b>Person · Location · DateTime · Organization · Address · Email · URL</b> and more, each with a confidence score."},
+    {d:"p3",f:"PII detection + redaction",b:"recognize_pii_entities finds names, emails, phones, SSNs… and returns <b>redacted_text</b> with sensitive values masked by asterisks."},
+    {d:"p3",f:"Foundry endpoint ↔ project endpoint",b:"Project endpoint = resource endpoint + <b>/api/projects/{project}</b>. Project key = resource key. Language APIs use the <b>resource</b> endpoint."},
+    {d:"p3",f:"Azure Language MCP server",b:"Preview server exposing Language tools (detection, NER, PII, Health) to any MCP agent — one connection, agent auto-picks tools. Endpoint on the legacy <b>cognitiveservices.azure.com</b> domain."},
+    {d:"p3",f:"MCP architecture roles",b:"<b>Host</b> runs the agent · <b>Client</b> (inside the host) manages server connections · <b>Server</b> exposes tools/resources/prompts."}
+    ,{d:"p3",f:"GenAI speech model names",b:"STT: <b>gpt-4o-transcribe</b>, gpt-4o-mini-transcribe, <b>gpt-4o-transcribe-diarize</b> (speaker separation). TTS: <b>gpt-4o-tts</b>, gpt-4o-mini-tts. Called via the AzureOpenAI client."},
+    {d:"p3",f:"Azure Speech — the 4 APIs",b:"<b>Speech to text</b> · <b>Text to speech</b> · <b>Speech Translation</b> · <b>Voice Live</b> (real-time conversational agents)."},
+    {d:"p3",f:"Speech recognition object chain",b:"<b>SpeechConfig</b> (endpoint+key) + <b>AudioConfig</b> (default mic, or file) → <b>SpeechRecognizer</b> → RecognizeOnceAsync() → result.Reason + result.Text."},
+    {d:"p3",f:"Recognition Reason values",b:"<b>RecognizedSpeech</b> = success (Text holds transcript) · <b>NoMatch</b> = audio OK but no speech found · <b>Canceled</b> = error — inspect CancellationReason."},
+    {d:"p3",f:"Speech synthesis chain",b:"SpeechConfig + AudioConfig (speaker default · file · <b>None → handle the stream yourself</b>) → <b>SpeechSynthesizer</b> → SpeakTextAsync() → Reason SynthesizingAudioCompleted, audio in <b>AudioData</b>."},
+    {d:"p3",f:"SSML",b:"XML controlling speech output: <b>styles</b> (cheerful) · pauses · <b>phonemes</b> (SQL→\"sequel\") · <b>prosody</b> (pitch/rate) · say-as (date/phone) · multi-voice dialogs · insert recorded audio. Send via speak_ssml_async()."},
+    {d:"p3",f:"Voices + audio format",b:"speech_synthesis_voice_name = e.g. <b>en-US-AriaNeural</b> · set_speech_synthesis_output_format picks file type, sample rate, bit depth."}
+    ,{d:"p3",f:"Speech MCP server — the 2 tools",b:"<b>Recognize</b> (STT from WAV/MP3/OGG/FLAC/MP4… with language, phrase hints, profanity filtering) · <b>Synthesize</b> (neural TTS → audio file in Blob storage)."},
+    {d:"p3",f:"Speech MCP storage requirement",b:"Needs an <b>Azure Storage blob container + SAS URL</b> (Read/Add/Create/Write/List): TTS output audio is saved there; STT input comes from public or SAS URLs. Treat SAS as a secret — short expiry, single container."},
+    {d:"p3",f:"Phrase hints",b:"Domain terms supplied with a transcription request (\"Azure, OpenAI…\") → <b>better recognition accuracy</b> for jargon and product names."},
+    {d:"p3",f:"Voice Live API",b:"Low-latency <b>speech-to-speech</b> over <b>WebSocket</b> with JSON events. Noise reduction, echo cancellation, semantic VAD turn detection, OpenAI + custom voices, <b>WebRTC avatars</b>."},
+    {d:"p3",f:"Voice Live auth",b:"Recommended: <b>Entra keyless</b> — assign <b>Cognitive Services User</b>, token scope <b>https://ai.azure.com/.default</b>, send as Bearer. API key: header (not in browsers) or encrypted query param."},
+    {d:"p3",f:"Voice Live events to know",b:"Client → <b>session.update</b> (configure voice, VAD, formats), input_audio_buffer.append, response.create. Server → session.updated, <b>response.done</b>, conversation.item.created."},
+    {d:"p3",f:"Barge-in (interruptions)",b:"On <b>INPUT_AUDIO_BUFFER_SPEECH_STARTED</b>: immediately stop client playback and cancel the current response — otherwise the agent keeps talking over the user."},
+    {d:"p3",f:"Voice Live with agents vs models",b:"Connect by <b>agent_id + project_id</b>: instructions + config live in the agent, not session code → simpler clients, updatable behavior. SDK azure-ai-voicelive is <b>async-only</b>."}
+    ,{d:"p3",f:"Translator vs Speech (for translation)",b:"Text, documents, custom domain terms → <b>Azure Translator</b>. Spoken input → <b>Azure Speech Translation</b> (returns text or synthesized speech, multiple languages simultaneously)."},
+    {d:"p3",f:"translate() essentials",b:"Omit <b>from_language</b> → source auto-detected · <b>to_language takes a list</b> → one call returns every target · body = InputTextItem objects."},
+    {d:"p3",f:"Transliterate",b:"Convert <b>script</b>, not language: language=\"ja\", from_script=<b>Jpan</b>, to_script=<b>Latn</b> → こんにちは becomes \"Kon'nichiwa\". Different operation from translation."},
+    {d:"p3",f:"Speech translation object chain",b:"<b>SpeechTranslationConfig</b> (speech_recognition_language + add_target_language for each target) + AudioConfig → <b>TranslationRecognizer</b>.recognize_once_async()."},
+    {d:"p3",f:"Manual vs event-based synthesis",b:"<b>Manual</b>: iterate result.translations → SpeechSynthesizer per language — multi-language OK. <b>Event-based</b>: Synthesizing event + GetAudio() — <b>single target language only</b>, voice set in config."}
+    ,{d:"p4",f:"Vision prompt structure",b:"A <b>multi-part user message</b>: one text content item + one image content item. Image = web URL or <b>base64 data URL</b> (data:image/jpeg;base64,…). Works in Responses + ChatCompletions."},
+    {d:"p4",f:"Multimodal chat models",b:"<b>Phi-4-multimodal-instruct · gpt-4.1 · gpt-4.1-mini</b> — accept image + text input and can <b>reason</b> about what they see (charts, damage assessment), not just tag objects."},
+    {d:"p4",f:"Image generation models",b:"OpenAI <b>gpt-image-1</b> series · Black Forest Labs <b>FLUX</b> series. Output is <b>original</b>, generated from training — never retrieved from a catalog."},
+    {d:"p4",f:"images.generate()",b:"Parameters: <b>model, prompt, n, size</b> (e.g. \"1024x1024\"). Playground extras: resolution + <b>reference image</b>. Result arrives as a binary stream."}
+    ,{d:"p4",f:"Sora 2 capabilities",b:"<b>Text→video · image→video</b> (input_reference sets frame 1) · <b>remix</b> (targeted edits by video_id) · audio generation. Sizes 1280×720 / 720×1280 · durations <b>4, 8, 12 s</b>."},
+    {d:"p4",f:"Video generation job lifecycle",b:"<b>Asynchronous</b>: create → poll (queued → in_progress → completed/failed/cancelled) → download. Limits: <b>2 concurrent jobs</b>, results kept <b>24 h</b>."},
+    {d:"p4",f:"Sora reference-image rules",b:"JPEG/PNG/WebP · resolution must <b>exactly match</b> the target video size · images containing <b>human faces are rejected</b>."},
+    {d:"p4",f:"Video prompt anatomy",b:"Camera framing · anchored subject · <b>action in beats</b> (\"three pedals, brakes, stops\") · lighting/palette · style. Short clips follow direction better — stitch two 4s clips over one 8s."},
+    {d:"p4",f:"Content Understanding pipeline",b:"<b>Analyzer</b> → content extraction (OCR, layout, transcription) → <b>field extraction</b> per your schema → <b>confidence scores</b> + <b>grounding</b> → JSON (automation) or Markdown (search/RAG)."},
+    {d:"p4",f:"Prebuilt image analyzers",b:"<b>prebuilt-image</b> (general) · <b>prebuilt-receipt</b> · <b>prebuilt-invoice</b> · <b>prebuilt-idDocument</b> (licenses, passports)."},
+    {d:"p4",f:"extract · classify · generate",b:"<b>extract</b> = pull value verbatim · <b>classify</b> = choose from predefined categories · <b>generate</b> = create new content (scene description). Set per field in the schema."},
+    {d:"p4",f:"Confidence-score routing",b:"<b>≥0.9</b> trust for automation · <b>0.7–0.9</b> human review for critical flows · <b>&lt;0.7</b> manual verification. Grounding shows where each value was read."}
+    ,{d:"p4",f:"Content Understanding dev surfaces",b:"<b>Foundry portal</b>: certain prebuilt analyzers only · <b>Content Understanding Studio</b>: projects (auto storage + key vault), schema editor, custom analyzers, testing · <b>API/SDK</b>: full automation."},
+    {d:"p4",f:"Analyzer build flow",b:"Foundry resource → <b>schema defined by example</b> (upload sample + pick template; genAI needs minimal training data; label explicitly to boost accuracy) → build → consume via resource endpoint. Refine as named versions."},
+    {d:"p4",f:"CU required model deployments",b:"Content Understanding needs <b>GPT-4.1, GPT-4.1-mini, and text-embedding-3-large</b> deployed on the Foundry resource before the API works."},
+    {d:"p4",f:"CU analyze API",b:"POST …/analyzers/{name}<b>:analyze</b> with a content URL · raw bytes → <b>analyzeBinary</b> · response = <b>operation ID</b> → poll analyzerResults. SDK begin_analyze poller auto-polls via .result()."},
+    {d:"p4",f:"CU across modalities",b:"Docs → invoice/contract fields · images → defects, objects, chart reading · audio → call summaries, sentiment · video → meeting key points, activity detection. One schema-driven process."}
+    ,{d:"p4",f:"Document Intelligence — 3 model families",b:"<b>Document analysis</b>: read (text+language) · layout (adds tables, selection marks, structure). <b>Prebuilt</b>: invoice, receipt, ID, tax, mortgage… <b>Custom</b>: template, neural, classifier, composed."},
+    {d:"p4",f:"read vs layout model",b:"<b>read</b> = printed + handwritten text, language detection. <b>layout</b> = read + tables, selection marks (checkboxes), structure, optional key-value pairs. The old general-document model is <b>deprecated → layout</b>."},
+    {d:"p4",f:"Custom template vs neural",b:"<b>Template</b>: consistent fixed layout, trains in <b>minutes</b>, 100+ languages, cheap. <b>Neural</b>: varying/semi-structured layouts, <b>higher accuracy</b>, overlapping fields + signature detection, longer + costlier training."},
+    {d:"p4",f:"Training a custom DI model",b:"<b>≥5–6 sample forms</b> in Azure Blob + ocr.json, labels.json, fields.json + SAS URL → Build model API. DI Studio generates the JSONs from visual labeling (storage needs <b>CORS</b>)."},
+    {d:"p4",f:"Composed models + classifiers",b:"Combine several custom models: incoming doc is <b>classified</b>, routed to the right component model, results returned. Custom classifiers also route across form types."},
+    {d:"p4",f:"DI input limits",b:"JPEG/PNG/BMP/PDF/TIFF (read also Office) · <b>&lt;500 MB</b> standard / <b>4 MB</b> free tier · 50×50 → 10,000×10,000 px · PDF ≤ 17×17 in and <b>never password-protected</b>."},
+    {d:"p4",f:"AI Search indexing pipeline",b:"<b>Data source → indexer</b> (document cracking) → <b>skillset</b> adds enriched fields (language, OCR of normalized_images, merged_content) → <b>index</b>. Explicitly map skill outputs to index fields."},
+    {d:"p4",f:"Built-in vs custom skills",b:"<b>Built-in</b>: language, entities, key phrases, translation, PII, OCR, image captions — needs an attached same-region <b>Foundry Tools resource</b> (else capped at 20 docs). <b>Custom</b>: your Azure Function in the pipeline (e.g. call Document Intelligence)."},
+    {d:"p4",f:"Index field attributes",b:"<b>key</b> · <b>searchable</b> (full-text) · <b>filterable</b> ($filter) · <b>sortable</b> ($orderby) · <b>facetable</b> (UI filter options) · <b>retrievable</b> (in results, default on)."},
+    {d:"p4",f:"Query mechanics",b:"Lucene <b>simple vs full</b> syntax · searchMode <b>Any</b> (either term) vs <b>All</b> (every term) · stages: parse → lexical analysis → retrieval → <b>TF/IDF scoring</b> · OData $filter is <b>case-sensitive</b>."},
+    {d:"p4",f:"Knowledge store",b:"Defined in the <b>skillset</b>: persists <b>projections</b> of enriched data as JSON objects, <b>tables</b> (for analytics/ETL), or image files — beyond what the index keeps."}
+    /*@CARDS_END@*/
+  ];
+  CARDS.forEach(function(c,i){ c.id="c"+i; });
+
+  var deck="all", queue=[], qi=0, flipped=false;
+  var flashEl=document.getElementById("flash");
+  function deckCards(){ return CARDS.filter(function(c){ return deck==="all"||c.d===deck; }); }
+  function buildQueue(){
+    queue=deckCards().map(function(c){ return c.id; });
+    for(var i=queue.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=queue[i]; queue[i]=queue[j]; queue[j]=t; }
+    qi=0; flipped=false;
+  }
+  function deckChips(){
+    var host=document.getElementById("deckchips"); host.innerHTML="";
+    var mk=function(id,label){
+      var known=CARDS.filter(function(c){ return (id==="all"||c.d===id)&&S.known[c.id]; }).length;
+      var total=id==="all"?CARDS.length:CARDS.filter(function(c){ return c.d===id; }).length;
+      var b=document.createElement("button");
+      b.className="deckchip"+(deck===id?" on":"");
+      b.innerHTML=label+'<span class="cnt">'+known+"/"+total+"</span>";
+      b.addEventListener("click",function(){ deck=id; buildQueue(); deckChips(); renderFlash(); });
+      host.appendChild(b);
+    };
+    mk("all","All");
+    Object.keys(DECKS).forEach(function(k){ mk(k,DECKS[k]); });
+  }
+  function renderFlash(){
+    var ids=queue.filter(function(id){ return !S.known[id]; });
+    var pos=document.getElementById("fpos"), kn=document.getElementById("fknown");
+    var dc=deckCards(), knownCt=dc.filter(function(c){ return S.known[c.id]; }).length;
+    kn.textContent=knownCt+"/"+dc.length+" known";
+    if(qi>=queue.length){
+      flashEl.innerHTML='<div class="fdone"><div style="font-size:34px">🎉</div><b>Run complete.</b><br>'+knownCt+" of "+dc.length+' marked known. Shuffle to run again — "Again" cards reappear each run.</div>';
+      pos.textContent="done"; return;
+    }
+    var c=CARDS.find(function(x){ return x.id===queue[qi]; });
+    pos.textContent=(qi+1)+" / "+queue.length+(S.known[c.id]?" · known":"");
+    flashEl.innerHTML=flipped
+      ? '<div class="fe">'+DECKS[c.d]+' · answer</div><div class="back">'+c.b+'</div><div class="hint">✓ got it · ↻ again → next card</div>'
+      : '<div class="fe">'+DECKS[c.d]+'</div><div class="front">'+c.f+'</div><div class="hint">tap to flip</div>';
+  }
+  function flip(){ flipped=!flipped; renderFlash(); }
+  function next(gotIt){
+    if(qi>=queue.length) return;
+    var id=queue[qi];
+    if(gotIt){ S.known[id]=1; } else { delete S.known[id]; queue.push(id); }
+    save(); qi++; flipped=false; deckChips(); renderFlash(); stats();
+  }
+  flashEl.addEventListener("click",flip);
+  flashEl.addEventListener("keydown",function(e){ if(e.key===" "||e.key==="Enter"){ e.preventDefault(); flip(); } });
+  document.getElementById("btnFlip").addEventListener("click",flip);
+  document.getElementById("btnGot").addEventListener("click",function(){ next(true); });
+  document.getElementById("btnAgain").addEventListener("click",function(){ next(false); });
+  document.getElementById("btnShuffle").addEventListener("click",function(){ buildQueue(); renderFlash(); });
+  buildQueue(); deckChips(); renderFlash();
+
+  /* ---------- quiz ---------- */
+  var TOPICNAMES={cap:"Capabilities",fnd:"Foundry",tls:"Tools",sdk:"SDKs",rai:"Responsible AI",xam:"Exam",p1:"GenAI apps",p2:"AI agents",p3:"Language",p4:"Vision & extraction"};
+  var TOPICCOLOR={cap:"var(--s1)",fnd:"var(--s2)",tls:"var(--s3)",sdk:"var(--s4)",rai:"var(--s5)",xam:"var(--accent)",p1:"var(--s2)",p2:"var(--s1)",p3:"var(--s4)",p4:"var(--s3)"};
+  var QUIZ=[
+    {t:"fnd",q:"Which web portal do you use to work with the assets in a Microsoft Foundry project?",o:["The Azure portal","The Microsoft Foundry portal","Microsoft Copilot","Azure DevOps"],a:1,w:"The Foundry portal is the visual workspace for project assets; the Azure portal manages the underlying Azure resource."},
+    {t:"fnd",q:"Which component of Microsoft Foundry provides pre-built services for common AI tasks?",o:["Foundry Models","Foundry IQ","Foundry Agent Service","Foundry Tools"],a:3,w:"Foundry Tools = the prebuilt APIs/models (Language, Speech, Translator, Document Intelligence, Content Understanding)."},
+    {t:"sdk",q:"Which Visual Studio Code extension is designed for working with Foundry projects?",o:["Python extension","GitHub Copilot","Foundry Toolkit","Azure Account extension"],a:2,w:"Foundry Toolkit: browse resources, deploy models, playgrounds, YAML agent designer, codegen."},
+    {t:"cap",q:"An AI agent combines which three ingredients?",o:["Model + data + compute","LLM + instructions + tools","Portal + SDK + API","Prompt + index + cache"],a:1,w:"“LIT” — an LLM, focused instructions defining responsibilities, and tools it can use."},
+    {t:"cap",q:"An app pulls purchase dates, line items, and totals from scanned receipts. Which AI capability is that?",o:["Computer vision only","Natural language processing","Information extraction","Computer speech"],a:2,w:"Information extraction combines genAI + NLP + vision to pull key info from documents and media."},
+    {t:"tls",q:"Which Foundry Tool extracts fields from invoices, receipts, and forms using prebuilt or custom models?",o:["Azure Language","Azure Document Intelligence","Azure Content Understanding","Azure Translator"],a:1,w:"Documents/forms → Document Intelligence. Content Understanding is the answer when video/audio/multimodal is involved."},
+    {t:"tls",q:"You must extract data from documents AND images AND videos AND audio streams. Which tool?",o:["Azure Content Understanding","Azure Document Intelligence","Azure Speech","Azure Language"],a:0,w:"Content Understanding = multimodal content analysis across all those formats."},
+    {t:"tls",q:"Sentiment analysis, entity extraction, and summarization of customer emails — which tool?",o:["Azure Translator","Azure Speech","Azure Content Understanding","Azure Language"],a:3,w:"Azure Language handles text analysis: entities, sentiment, summarization, plus conversational models and Q&A."},
+    {t:"tls",q:"Your agent needs real-time spoken conversation with users. Which tool?",o:["Azure Speech","Azure Language","Azure Translator","Azure Document Intelligence"],a:0,w:"Azure Speech: text-to-speech, speech-to-text, and real-time live speech."},
+    {t:"fnd",q:"Which Foundry feature gives a project one central, MCP-based connection to multiple knowledge sources?",o:["Foundry Models","Foundry IQ","Foundry Tools","The model catalog"],a:1,w:"Foundry IQ = single central knowledge connection for grounding."},
+    {t:"fnd",q:"A Foundry project belongs to…",o:["exactly one Foundry resource","any number of resources","one Azure subscription, no resource","a hub, always"],a:0,w:"Each project belongs to a single Foundry resource; a resource can host many projects with one default."},
+    {t:"fnd",q:"Which TWO endpoints can you use to reach model deployments in a Foundry project?",o:["Project endpoint + Azure OpenAI endpoint","REST endpoint + GraphQL endpoint","Portal endpoint + CLI endpoint","Public + private endpoint only"],a:0,w:"Project endpoint (Foundry APIs/SDKs) and Azure OpenAI endpoint (OpenAI APIs/SDKs)."},
+    {t:"fnd",q:"Agents in Foundry are developed and consumed using…",o:["Azure Functions","the Foundry Agent Service via the project endpoint","Azure Logic Apps","Power Automate"],a:1,w:"The Microsoft Foundry Agent Service, accessed through the project endpoint."},
+    {t:"tls",q:"Foundry Tools were previously known as…",o:["Azure Machine Learning","Azure AI Services (earlier: Cognitive Services)","Copilot Studio","Azure OpenAI"],a:1,w:"Cognitive Services → Azure AI Services → Foundry Tools. Old names persist in APIs and SDKs."},
+    {t:"sdk",q:"You need code that creates and manages Foundry projects, agents, and Foundry IQ stores in a CI/CD pipeline. Which SDK?",o:["The OpenAI API","A Foundry Tools SDK","Microsoft Foundry SDK","Azure CLI only"],a:2,w:"The Foundry SDK works at project level: assets, agents, IQ, automation."},
+    {t:"sdk",q:"You're building a chat app and want to keep OpenAI-style syntax against Foundry models. Use…",o:["The OpenAI API","Microsoft Foundry SDK","Semantic Kernel only","REST only"],a:0,w:"Models that support OpenAI syntax are consumed with OpenAI APIs/SDKs via the Azure OpenAI endpoint."},
+    {t:"rai",q:"A loan-approval model must not disadvantage applicants by gender or ethnicity. Which principle?",o:["Transparency","Fairness","Accountability","Reliability & safety"],a:1,w:"Fairness: no bias against groups — review training data and per-group performance from the start."},
+    {t:"rai",q:"An autonomous vehicle's AI must be rigorously tested and respect confidence thresholds. Which principle?",o:["Reliability & safety","Inclusiveness","Privacy & security","Fairness"],a:0,w:"Reliability & safety: rigorous testing + handling the probabilistic nature of models."},
+    {t:"rai",q:"Users should be told a system's purpose, limitations, and prediction confidence. Which principle?",o:["Accountability","Privacy & security","Transparency","Inclusiveness"],a:2,w:"Transparency = AI systems should be understandable: purpose, workings, limits, confidence."},
+    {t:"rai",q:"Designers work within a governance framework so the solution meets responsible and legal standards. Which principle?",o:["Transparency","Fairness","Reliability & safety","Accountability"],a:3,w:"Accountability: people answer for AI systems, inside a defined governance framework."},
+    {t:"cap",q:"Why choose Foundry Tools over a pure generative-AI agent for a common task?",o:["Always more accurate","More cost-effective and predictable","Required by Azure policy","GenAI can't process text"],a:1,w:"Prebuilt services make the solution cheaper and more predictable than relying on genAI alone."},
+    {t:"fnd",q:"Custom and third-party tools connect to Foundry agents through…",o:["FTP","Model Context Protocol (MCP) connections","Webhooks only","ODBC"],a:1,w:"MCP is the connection standard for external tools and knowledge."},
+    {t:"xam",q:"Which AI-103 domain carries the most weight?",o:["Plan and manage (25–30%)","Computer vision (10–15%)","Generative AI + agentic solutions (30–35%)","Information extraction (10–15%)"],a:2,w:"GenAI + agents = 30–35%, the exam's center of gravity. Plan & manage is second at 25–30%."},
+    {t:"cap",q:"A model that accepts images as input and can also generate images/video output is called…",o:["multimodal","recurrent","statistical","symbolic"],a:0,w:"Multimodal models handle multiple input AND output formats."}
+    ,{t:"p1",q:"Your chat API serves steady, high production traffic and needs predictable throughput. Which deployment type?",o:["Global Standard","Global Provisioned (PTU)","Global Batch","Developer"],a:1,w:"Provisioned deployments reserve throughput units (PTUs) for predictable high-volume performance."},
+    {t:"p1",q:"You must summarize 2 million archived documents overnight at lowest cost. Which deployment type?",o:["Global Batch","Global Standard","Regional Provisioned","Data Zone Standard"],a:0,w:"Batch = 50% discount for large asynchronous jobs completed within 24 hours."},
+    {t:"p1",q:"Regulations require prompts and completions to stay within EU boundaries. Which deployment type?",o:["Global Standard","Global Batch","Data Zone deployment","Developer"],a:2,w:"Data Zone deployments keep data inside a specific zone (EU/US) for compliance."},
+    {t:"p1",q:"Which metric best evaluates generated summaries against reference summaries?",o:["BLEU","ROUGE","Attack Success Rate","TTFT"],a:1,w:"ROUGE is recall-oriented — ideal for summarization. BLEU is the translation metric."},
+    {t:"p1",q:"You need responses to stick to retrieved context and never invent facts. Which evaluation metric?",o:["Fluency","Coherence","Groundedness","F1-score"],a:2,w:"Groundedness checks answers are based on provided context; the Pro variant gives a binary verdict."},
+    {t:"p1",q:"Semantic search over company docs needs text converted to vectors. Which model type?",o:["Reasoning model","Embedding model","Image generation model","Speech to text model"],a:1,w:"Embedding models turn text into numeric representations for meaning-based retrieval (the R in RAG)."},
+    {t:"p1",q:"On the HarmBench safety benchmark, a SAFER model has…",o:["higher Attack Success Rate","lower Attack Success Rate","higher token throughput","lower quality index"],a:1,w:"ASR measures successful harmful-content attacks — lower means more robust."}
+    ,{t:"p1",q:"You're starting a new chat app and want built-in multi-turn conversation state. Which API?",o:["ChatCompletions API","Responses API","Assistants API","Realtime API"],a:1,w:"The Responses API is stateful (previous_response_id) and recommended for new development."},
+    {t:"p1",q:"Your app needs cloud evaluations, tracing, and agent management. Which SDK?",o:["OpenAI SDK","Microsoft Foundry SDK","Azure Storage SDK","Semantic Kernel only"],a:1,w:"Foundry-specific features (agents, evals, tracing, connections) live in the Foundry SDK via AIProjectClient."},
+    {t:"p1",q:"Recommended authentication for a production Foundry app?",o:["API key in code","Microsoft Entra ID","Shared SAS token","Anonymous"],a:1,w:"Entra ID (DefaultAzureCredential) is recommended; keys belong in Key Vault if used at all."},
+    {t:"p1",q:"With ChatCompletions, how is conversation context kept across turns?",o:["Automatically by the service","Your code resends the message history each call","Via previous_response_id","It can't be kept"],a:1,w:"ChatCompletions is stateless — the app manages and resends messages[]. Responses API has previous_response_id."},
+    {t:"p1",q:"What does previous_response_id do in the Responses API?",o:["Deletes the prior response","Links a new call to the prior response to keep context","Sets max tokens","Selects the deployment"],a:1,w:"It chains responses so the model sees the conversation without you rebuilding history."},
+    {t:"p1",q:"Users complain the app 'freezes' while long answers generate. Best fix?",o:["Raise temperature","Enable streaming (stream=True)","Shorten the system prompt","Switch to key auth"],a:1,w:"Streaming delivers tokens incrementally, so users see output immediately."}
+    ,{t:"p1",q:"Users ask your chat app about competitor prices that change weekly. Which tool grounds the answers?",o:["code_interpreter","web_search","file_search","function"],a:1,w:"web_search retrieves live internet content — right for facts newer than the model's training data."},
+    {t:"p1",q:"The app must answer questions from your company's policy PDFs. Which tool?",o:["file_search","web_search","code_interpreter","function"],a:0,w:"file_search does semantic retrieval over your uploaded documents in a vector store."},
+    {t:"p1",q:"The model should be able to create a support ticket in your internal system. Which tool?",o:["web_search","code_interpreter","function","file_search"],a:2,w:"The function tool lets the model request a call to your custom code, which performs the action."},
+    {t:"p1",q:"With the function tool, who actually executes the function's logic?",o:["The model, in its sandbox","Your application code","The Foundry portal","Azure automatically"],a:1,w:"The model only emits a structured call; your app runs it and returns function_call_output."},
+    {t:"p1",q:"A user uploads a CSV and wants summary statistics computed. Which tool?",o:["code_interpreter","web_search","function","none needed"],a:0,w:"code_interpreter runs Python in a sandbox — ideal for data analysis and calculations."},
+    {t:"p1",q:"file_search works, but your enterprise agent needs many large knowledge stores. Recommended approach?",o:["Bigger vector store","Foundry IQ knowledge store","web_search","Fine-tuning"],a:1,w:"For enterprise-scale, multi-source knowledge, Microsoft points to Foundry IQ with a Foundry agent."}
+    ,{t:"p1",q:"Your travel chatbot invents hotel names that aren't in your catalog. Best fix?",o:["Raise temperature","Retrieval Augmented Generation","Longer system message","Switch to an SLM"],a:1,w:"The model lacks your domain data — RAG retrieves the real catalog and grounds responses in it."},
+    {t:"p1",q:"Despite detailed prompts and few-shot examples, the model keeps breaking your brand voice. Next step?",o:["Fine-tune the model","Add web_search","Lower top_p","Use ChatCompletions"],a:0,w:"Persistent style/format inconsistency despite good prompting is the classic fine-tuning trigger."},
+    {t:"p1",q:"Which Azure AI Search mode is recommended for generative AI apps?",o:["Keyword search","Vector search only","Hybrid search","Fuzzy search"],a:2,w:"Hybrid combines keyword + semantic + vector for the most accurate retrieval."},
+    {t:"p1",q:"Direct Preference Optimization (DPO) trains the model using…",o:["Labeled prompt/response pairs only","Preferred vs non-preferred response pairs","A reward-model grader loop","Synthetic data only"],a:1,w:"DPO aligns on human preference pairs — computationally lighter than reinforcement approaches."},
+    {t:"p1",q:"Chain-of-thought prompting is most useful with…",o:["Reasoning (o-series) models","Non-reasoning models","Embedding models","Speech models"],a:1,w:"Reasoning models step through logic internally; CoT prompting helps standard models do it explicitly."},
+    {t:"p1",q:"What should you always do BEFORE fine-tuning?",o:["Buy PTUs","Evaluate baseline performance of a standard model","Delete old deployments","Disable content filters"],a:1,w:"Without a baseline you can't tell if fine-tuning helped or hurt."},
+    {t:"p1",q:"Cosine similarity close to 1 between two text embeddings means…",o:["The texts are unrelated","The texts are semantically similar","One text is longer","The index is corrupt"],a:1,w:"Vectors pointing the same way = same meaning — the basis of vector search."}
+    ,{t:"p1",q:"What's the correct order of Microsoft's responsible generative AI process?",o:["Measure → Map → Manage → Mitigate","Map → Measure → Mitigate → Manage","Mitigate → Map → Measure → Manage","Map → Mitigate → Measure → Manage"],a:1,w:"The 4 Ms: Map harms, Measure their presence, Mitigate in layers, Manage operations."},
+    {t:"p1",q:"Users try to subvert your system prompt with jailbreak inputs. Which guardrail capability detects this?",o:["Content filters","Prompt shields","Groundedness metric","Blocklists only"],a:1,w:"Prompt shields apply abuse-detection to spot systematic attempts to subvert the system prompt."},
+    {t:"p1",q:"Foundry content filters classify content into…",o:["3 levels × 4 categories","4 severity levels × 5 harm categories","5 levels × 3 categories","2 levels × 6 categories"],a:1,w:"Severities: safe/low/medium/high. Categories: hate & fairness, sexual, violence, self-harm, task-adherence."},
+    {t:"p1",q:"A team deliberately probes your copilot with harmful requests to see what gets through. This is…",o:["Blue teaming","Fuzzing","Red teaming","Chaos engineering"],a:2,w:"Red teaming = purposeful adversarial testing to verify and document potential harms."},
+    {t:"p1",q:"\"Use a simpler model for this narrow classification task\" is a mitigation at which layer?",o:["Model layer","Safety system layer","System message layer","User experience layer"],a:0,w:"Model-layer mitigations: pick the appropriate (smaller) model and/or fine-tune it."}
+    ,{t:"p2",q:"What does PUBLISHING an agent do that deploying doesn't?",o:["Saves the YAML to Git","Creates an Agent Application with a stable, externally callable endpoint","Enables the playground","Adds tools automatically"],a:1,w:"Deploy keeps the agent in your project; publish creates the Agent Application resource external consumers call."},
+    {t:"p2",q:"Tool calls worked in development but fail with 403 after publishing. Most likely cause?",o:["Wrong model deployed","The published agent's new Entra identity lacks RBAC roles","The endpoint URL changed","Content filters"],a:1,w:"Publishing mints a dedicated identity; permissions don't transfer — reassign roles to it."},
+    {t:"p2",q:"How do external callers authenticate to a published Agent Application?",o:["API key","Entra ID with the Azure AI User role","SAS token","Anonymous with rate limits"],a:1,w:"Agent Applications are Entra-only; API key auth isn't supported."},
+    {t:"p2",q:"A multi-agent orchestration defined in YAML is which kind of agent?",o:["Hosted agent","Declarative workflow agent","Prompt-based agent","Container agent"],a:1,w:"Declarative agents are config-defined; the workflow flavor orchestrates multiple agents via YAML."},
+    {t:"p2",q:"Your agent must search the company's existing enterprise search indexes. Which tool?",o:["File Search","Azure AI Search","Code Interpreter","Bing Web Search"],a:1,w:"Azure AI Search connects to existing indexed data; File Search only covers docs you upload to a vector store."},
+    {t:"p2",q:"A crafted user message contains hidden instructions that make the agent reveal credentials. This attack is…",o:["Data poisoning","Prompt injection","Model inversion","Privilege escalation"],a:1,w:"Prompt injection overrides intended behavior via malicious input — mitigate with filtering and validation layers."}
+    ,{t:"p2",q:"Your team already runs event-driven serverless code fed by storage queues. Which custom-tool option fits best?",o:["OpenAPI tool","Azure Functions","Logic Apps","File Search"],a:1,w:"Azure Functions integrate via triggers and bindings — a natural fit for existing event-driven code."},
+    {t:"p2",q:"You want the agent to call a partner's REST API that publishes a standard specification. Which option?",o:["Function calling","Azure Functions","OpenAPI 3.0 tool","Code Interpreter"],a:2,w:"OpenAPI tools consume a 3.0 spec — Foundry handles parameter mapping and response parsing."},
+    {t:"p2",q:"Which authentication types do OpenAPI agent tools support?",o:["Anonymous, API key, managed identity","Entra ID only","API key only","OAuth device flow only"],a:0,w:"The three supported types: anonymous, API key, and managed identity."},
+    {t:"p2",q:"The biggest benefit of connecting an agent to an MCP server is…",o:["Cheaper tokens","Tools update centrally without changing or redeploying the agent","Faster model inference","No authentication needed"],a:1,w:"Dynamic discovery: the agent fetches the live tool catalog at runtime — integrate once."},
+    {t:"p2",q:"You don't set require_approval on an MCPTool. What happens on tool calls?",o:["They run without approval","Every call requires approval (default = always)","Calls fail","Only the first call needs approval"],a:1,w:"require_approval defaults to always — you must approve via mcp_approval_response, or set it to never."},
+    {t:"p2",q:"How do you limit WHICH tools from an MCP server the agent may use?",o:["allowed_tools parameter","Firewall rules","Delete server tools","Lower temperature"],a:0,w:"MCPTool's allowed_tools lists the specific permitted tools."}
+    ,{t:"p2",q:"Three teams each need agents grounded in the same org documentation. The least-effort, most maintainable approach?",o:["Three separate RAG pipelines","One Foundry IQ knowledge base shared by all agents","Fine-tune three models","file_search per agent"],a:1,w:"Foundry IQ = shared knowledge bases; improvements flow to every connected agent."},
+    {t:"p2",q:"Agent answers must reflect live SharePoint content AND respect existing SharePoint permissions with no index maintenance. Which source?",o:["SharePoint Indexed","SharePoint Remote","Blob Storage","Web"],a:1,w:"Remote queries SharePoint in real time and automatically honors its permissions."},
+    {t:"p2",q:"You need custom analyzers and AI enrichment over SharePoint content. Which source?",o:["SharePoint Remote","SharePoint Indexed","OneLake","Web"],a:1,w:"Indexed pushes content into Azure AI Search where full custom pipelines apply."},
+    {t:"p2",q:"Your knowledge lives in a Microsoft Fabric lakehouse. Which Foundry IQ source connects it?",o:["Blob Storage","OneLake","AI Search index","SharePoint Remote"],a:1,w:"OneLake is the Fabric data-lakehouse connector."},
+    {t:"p2",q:"Your HR agent answers vacation questions from generic training data instead of company policy. Best fix?",o:["Raise temperature","Instructions: ALWAYS search the KB, cite with an exact format, and define a fallback","Add web grounding","Bigger model"],a:1,w:"Retrieval behavior is controlled by explicit instructions covering when to search, how to cite, and what to do when unsure."}
+    ,{t:"p2",q:"You want the whole company to find your agent under \"Built by your org\" in Teams. What's required?",o:["Shared scope, nothing else","Organization scope + Microsoft 365 admin approval","A paid Teams add-on","Publishing from VS Code only"],a:1,w:"Organization scope needs an admin to approve the agent in the M365 admin center."},
+    {t:"p2",q:"Your enterprise integration needs custom SSO and middleware between Teams and the agent. Which approach?",o:["Direct Foundry portal publishing","Microsoft 365 Agents Toolkit proxy app","Azure Logic Apps","Work IQ"],a:1,w:"The Agents Toolkit builds a proxy application giving full control over the message flow."},
+    {t:"p2",q:"An agent must answer \"What did my manager email me about the deadline?\" using M365 data. Which capability?",o:["File Search","Work IQ","Bing Web Search","Azure AI Search"],a:1,w:"Work IQ is the MCP server for Microsoft 365 data — mail, meetings, docs, Teams messages, people."},
+    {t:"p2",q:"Which Azure resource routes messages between Microsoft 365 and your published agent?",o:["Azure Front Door","Azure Bot Service","API Management","Event Grid"],a:1,w:"Publishing to M365 provisions an Azure Bot Service resource as the routing layer."},
+    {t:"p2",q:"What does Work IQ require before it can access tenant data?",o:["Nothing — it's public","A Copilot license and tenant admin consent","Just an API key","Global admin rights for every user"],a:1,w:"Work IQ needs an M365 Copilot license and admin consent; it then inherits each user's own permissions."}
+    ,{t:"p2",q:"Low-confidence ticket classifications must go to a person before any reply is sent. Which workflow pattern?",o:["Sequential","Human-in-the-loop","Group chat","Batch"],a:1,w:"Human-in-the-loop pauses execution for input/approval — pair with an If/Else on the confidence score."},
+    {t:"p2",q:"The workflow must process a list of support tickets, applying the same steps to each. Which node?",o:["Go To","If/Else","For Each","Parse value"],a:2,w:"For Each loops over a collection without duplicating nodes."},
+    {t:"p2",q:"Which language writes the conditions and data transformations inside Foundry workflows?",o:["Python","Power Fx","KQL","Bicep"],a:1,w:"Power Fx — the low-code, Excel-like formula language — is the workflow's glue."},
+    {t:"p2",q:"You want an agent's answer to reliably drive an If/Else branch. Best practice?",o:["Parse free text with regex","Have the agent return structured JSON output stored in a variable","Raise temperature","Use Go To"],a:1,w:"Define a response schema; structured output gives branching logic a predictable shape."},
+    {t:"p2",q:"A workflow edit broke production. What does Foundry give you to recover?",o:["Nothing — rebuild","Immutable saved versions you can roll back to","Automatic hourly backups","A recycle bin"],a:1,w:"Every save creates an immutable version; review, compare, and roll back."}
+    ,{t:"p2",q:"The Microsoft Agent Framework is the next generation of which two projects?",o:["LangChain and LlamaIndex","Semantic Kernel and AutoGen","Prompt Flow and Copilot Studio","Bot Framework and LUIS"],a:1,w:"Built by the same teams, it merges Semantic Kernel's enterprise features with AutoGen's agent abstractions."},
+    {t:"p2",q:"Your agent's conversation must survive app restarts and scale-out. Which provider fits best?",o:["OpenAI Chat Completion","Foundry Agent Service (service-side history)","Ollama","Anthropic Claude"],a:1,w:"Foundry stores session history service-side — the recommended production provider."},
+    {t:"p2",q:"A tool that sends payments must get human confirmation before running. Which framework feature?",o:["Middleware","approval_mode on the tool","Streaming","Context providers"],a:1,w:"approval_mode pauses the agent and requests confirmation before that tool executes."},
+    {t:"p2",q:"How does the Agent Framework know your custom function's parameters and purpose?",o:["It reads your mind","Schema auto-generated from type annotations + docstrings (or @tool decorator)","You write raw JSON schemas always","It inspects runtime traffic"],a:1,w:"Annotated parameters + docstrings (or explicit @tool args) become the tool schema the model sees."},
+    {t:"p2",q:"To let a coordinator delegate specialized tasks to another agent, you…",o:["Merge their prompts","Wrap the inner agent as a function tool of the outer agent","Run them in separate processes","Share an API key"],a:1,w:"Agent-as-tool composition: the coordinator calls the specialist like any other tool."}
+    ,{t:"p2",q:"Five specialist agents should analyze the same proposal independently and in parallel, then you combine their views. Which pattern?",o:["Sequential","Concurrent","Handoff","Magentic"],a:1,w:"Concurrent broadcasts one task to many agents simultaneously with independent results."},
+    {t:"p2",q:"Content must flow draft → review → polish, each stage building on the last. Which pattern?",o:["Group chat","Concurrent","Sequential","Handoff"],a:2,w:"Sequential is the fixed pipeline: each agent's output is the next agent's input."},
+    {t:"p2",q:"Mid-conversation, a support case turns out to need a billing specialist, then a technical one — you can't know the order upfront. Which pattern?",o:["Handoff","Sequential","Concurrent","None"],a:0,w:"Handoff dynamically transfers control to the best-suited agent as requirements emerge."},
+    {t:"p2",q:"One agent drafts, another critiques, repeating until quality is met — all in one visible thread. Which pattern?",o:["Magentic","Group chat (maker-checker)","Concurrent","Fan-out"],a:1,w:"The maker-checker loop is the classic group-chat special case, turn-managed by the chat manager."},
+    {t:"p2",q:"An open-ended research problem needs a documented, evolving plan with subtasks delegated to specialists. Which pattern?",o:["Sequential","Concurrent","Magentic","Direct edges"],a:2,w:"Magentic's manager plans and adapts, maintaining a task ledger of goals and plans."},
+    {t:"p2",q:"Which edge type sends one message to several executors at the same time?",o:["Direct","Conditional","Fan-out","Fan-in"],a:2,w:"Fan-out parallelizes; fan-in later aggregates the results."}
+    ,{t:"p2",q:"Your routing agent must discover and delegate to remote agents built by different teams on different platforms. Which protocol?",o:["MCP","A2A","OpenAPI","AMQP"],a:1,w:"A2A standardizes agent-to-agent discovery, communication, and coordinated task execution."},
+    {t:"p2",q:"Where does a client discover a remote A2A agent's skills and endpoint?",o:["Its Agent Card at /.well-known/agent-card.json","A shared database","The Azure portal","DNS records"],a:0,w:"The Agent Card is the structured discovery document exposed at the well-known endpoint."},
+    {t:"p2",q:"Pick the right statement about A2A vs MCP:",o:["They're identical","MCP connects agents to tools; A2A connects agents to other agents","A2A replaced MCP","MCP is only for OpenAI"],a:1,w:"Different layers: MCP = tool/knowledge access, A2A = inter-agent collaboration (each agent keeps its own LLM)."},
+    {t:"p2",q:"Which two operations does an A2A Agent Executor implement?",o:["start and stop","execute and cancel","push and pull","invoke and destroy"],a:1,w:"execute() processes requests via the EventQueue; cancel() handles cancellation (optional for simple agents)."}
+    ,{t:"p3",q:"Before sharing customer feedback externally you must mask names, emails, and phone numbers. Which capability?",o:["Named entity recognition","PII detection with redacted_text","Language detection","Summarization"],a:1,w:"PII detection identifies sensitive entities and returns a redacted version of the text."},
+    {t:"p3",q:"What's the per-document size limit for Azure Language detection?",o:["1,024 characters","5,120 characters","50,000 characters","No limit"],a:1,w:"5,120 characters per document; collections cap at 1,000 documents."},
+    {t:"p3",q:"Which Azure Language capabilities are now deprecated (kept only for existing apps)?",o:["Language detection and NER","Sentiment, summarization, and key phrases","PII redaction","Text Analytics for Health"],a:1,w:"The 2026 curriculum marks sentiment analysis, summarization, and key phrase extraction as deprecated — generative models cover those tasks now."},
+    {t:"p3",q:"A document mixes English and French. What does language detection return?",o:["An error","Both languages equally","The predominant language with a lower confidence score","(unknown) with score 0"],a:2,w:"Mixed content yields the largest-represented language at reduced confidence."},
+    {t:"p3",q:"An agent must detect language, extract entities, AND redact PII from reviews — via one tool connection. Best approach?",o:["Three separate SDK integrations","Connect the Azure Language MCP server","Fine-tune a model","Use web_search"],a:1,w:"The Language MCP server exposes all those capabilities as tools the agent picks between automatically."},
+    {t:"p3",q:"In MCP architecture, which component exposes the tools an agent can call?",o:["Host","Client","Server","Broker"],a:2,w:"The server publishes tools/resources; the client (inside the host) connects to it."}
+    ,{t:"p3",q:"Meeting transcripts must label who said each sentence. Which model?",o:["gpt-4o-tts","gpt-4o-transcribe-diarize","gpt-4o-mini-tts","text-embedding-ada"],a:1,w:"Diarization = separating and labeling speakers; that's the -diarize transcription model."},
+    {t:"p3",q:"Which Azure Speech object encapsulates your resource's endpoint and key?",o:["AudioConfig","SpeechRecognizer","SpeechConfig","SpeechSynthesizer"],a:2,w:"SpeechConfig holds connection details; AudioConfig sets input/output; recognizer/synthesizer do the work."},
+    {t:"p3",q:"RecognizeOnceAsync returns Reason = NoMatch. What happened?",o:["Network error","Audio was parsed but no speech was recognized","Wrong API key","Speech was recognized perfectly"],a:1,w:"NoMatch = valid audio, no recognizable speech. Errors show up as Canceled."},
+    {t:"p3",q:"Your app must pronounce \"SQL\" as \"sequel\" and pause between sentences. What do you use?",o:["Higher sample rate","SSML with phonemes and breaks","A different voice","temperature"],a:1,w:"SSML controls pronunciation (phonemes), pauses, style, and prosody — submitted via speak_ssml_async."},
+    {t:"p3",q:"Which Azure Speech API is designed for building real-time conversational voice agents?",o:["Speech to text","Voice Live","Speech Translation","Batch transcription"],a:1,w:"Voice Live is the API for live, real-time voice conversations with agents."}
+    ,{t:"p3",q:"What does the Speech MCP server require that the Language MCP server doesn't?",o:["A GPU cluster","An Azure Storage blob container with a SAS URL","A Teams license","A custom domain"],a:1,w:"It moves audio files: TTS output is written to blob storage, STT reads from URLs/SAS."},
+    {t:"p3",q:"Transcriptions keep mangling your product names. Cheapest fix?",o:["Fine-tune the model","Provide phrase hints with the domain terms","Raise sample rate","Switch languages"],a:1,w:"Phrase hints bias recognition toward supplied vocabulary — built into the recognize tool."},
+    {t:"p3",q:"Which transport does the Voice Live API use for real-time bidirectional audio?",o:["REST polling","WebSocket","FTP","gRPC only"],a:1,w:"Voice Live runs over WebSocket connections with JSON-formatted client/server events."},
+    {t:"p3",q:"A user interrupts the voice agent mid-reply. What must your client do when speech-started fires?",o:["Nothing — the API handles it","Stop audio playback and cancel the current response","Restart the session","Mute the microphone"],a:1,w:"If the client keeps playing buffered audio, the agent 'talks over' the user — cancel playback immediately."},
+    {t:"p3",q:"For keyless Voice Live auth, which role and token scope do you need?",o:["Owner + management scope","Cognitive Services User + https://ai.azure.com/.default","Reader + graph.microsoft.com","Contributor + storage scope"],a:1,w:"Assign Cognitive Services User and mint a Bearer token scoped to ai.azure.com/.default."}
+    ,{t:"p3",q:"Japanese text should be shown in Latin characters while staying Japanese. Which operation?",o:["translate","transliterate","detect_language","synthesize"],a:1,w:"Transliteration converts between scripts (Jpan → Latn) without changing the language."},
+    {t:"p3",q:"One spoken sentence must be translated into French AND Japanese in one pass. How?",o:["Two separate recognizers","add_target_language for each target on the SpeechTranslationConfig","It's impossible","Use SSML"],a:1,w:"Speech translation supports multiple simultaneous targets — add each to the config."},
+    {t:"p3",q:"What's the key limitation of event-based synthesis in speech translation?",o:["No neural voices","Works only for 1:1 (single target language) translation","Requires GPU","Text output only"],a:1,w:"Event-based synthesis (Synthesizing event + GetAudio) can't do multi-language — use manual synthesis for that."},
+    {t:"p3",q:"You don't know what language users will type. What do you pass to translate()?",o:["from_language=\"auto\"","Omit from_language — the service auto-detects","Always \"en\"","A detection model name"],a:1,w:"Leaving from_language out triggers automatic source-language detection (returned in the result)."}
+    ,{t:"p4",q:"Your app must send a photo stored on the user's device to a multimodal model. How does the image get into the prompt?",o:["FTP upload","As a base64-encoded data URL inside a multi-part message","Only via SharePoint","It can't be done"],a:1,w:"Local images are base64-encoded into a data:image/...;base64 URL (web URLs also work)."},
+    {t:"p4",q:"Which model families generate images from text prompts in Foundry?",o:["gpt-image-1 and FLUX","Phi-4 and Llama","Ada and Cohere","Whisper and TTS"],a:0,w:"OpenAI's gpt-image-1 series and Black Forest Labs' FLUX series are the text-to-image options named."},
+    {t:"p4",q:"Where do generated images come from?",o:["A curated stock catalog","Bing image search","They're newly generated by the model","Wikimedia"],a:2,w:"Generation models create original graphics — they are not retrieval/search systems."},
+    {t:"p4",q:"A user uploads a chart and asks 'is revenue trending up?'. What handles this best?",o:["OCR + regex","A vision-capable multimodal chat model","Azure Translator","An embedding model"],a:1,w:"Multimodal models reason over visual input directly in chat."}
+    ,{t:"p4",q:"How does an app consume Sora 2 video generation?",o:["Synchronous call returns the MP4","Create a job, poll status, download when completed","WebSocket stream","Email delivery"],a:1,w:"Video generation is asynchronous: create → poll (queued/in_progress/completed) → download within 24 h."},
+    {t:"p4",q:"Your 1024×1024 reference image fails for a 1280×720 video. Why?",o:["Wrong file format","Reference images must exactly match the target video resolution","Too dark","Sora doesn't support references"],a:1,w:"The input_reference resolution must equal the output size (1280×720 or 720×1280). Faces are also rejected."},
+    {t:"p4",q:"You want the same video but with a warm sunset palette. Cheapest route?",o:["Regenerate from scratch","videos.remix with the original video_id and the one change","Edit frames manually","Increase seconds"],a:1,w:"Remix preserves structure while applying a focused, described change."},
+    {t:"p4",q:"A Content Understanding field must label product photos as 'damaged' or 'undamaged'. Which method?",o:["extract","classify","generate","transcribe"],a:1,w:"classify picks from predefined categories; extract pulls literal values; generate creates new text."},
+    {t:"p4",q:"An invoice field comes back with confidence 0.62 in your automation flow. Best practice?",o:["Auto-approve it","Route it to human review","Discard the document","Lower the threshold"],a:1,w:"Below 0.7, manual verification is recommended — build routing on confidence scores."}
+    ,{t:"p4",q:"You need to create and test a CUSTOM Content Understanding analyzer visually. Where?",o:["Azure portal","Content Understanding Studio","VS Code only","Teams admin center"],a:1,w:"Studio is the visual surface for projects, schema editing, and custom analyzers; the portal only offers certain prebuilt models."},
+    {t:"p4",q:"Content Understanding API calls fail on a fresh resource. Which prerequisite is most likely missing?",o:["A GPU quota","Default model deployments: GPT-4.1, GPT-4.1-mini, text-embedding-3-large","A storage SAS","Peering"],a:1,w:"CU requires those three default model deployments configured on the Foundry resource."},
+    {t:"p4",q:"Your file isn't web-hosted — you must upload bytes directly for analysis. Which operation?",o:[":analyze with a URL","analyzeBinary","uploadFile","putContent"],a:1,w:":analyze takes URLs; analyzeBinary accepts binary file data directly."},
+    {t:"p4",q:"After submitting content for analysis, what does the API return first?",o:["The finished JSON results","An operation ID you poll until the analysis succeeds","A webhook","A markdown file"],a:1,w:"Analysis is asynchronous — poll analyzerResults with the operation ID (the SDK poller does this for you)."}
+    ,{t:"p4",q:"A fixed-layout application form needs extraction, trained fast and cheap. Which custom model?",o:["Custom neural","Custom template","Composed","Classifier"],a:1,w:"Template models suit static layouts — minutes to train, 100+ languages, low cost."},
+    {t:"p4",q:"Invoices arrive from hundreds of vendors, each formatted differently. Which custom model?",o:["Custom template","Custom neural","read model","Receipt model"],a:1,w:"Neural models handle structured→unstructured variation with higher accuracy."},
+    {t:"p4",q:"One inbox receives W-2s, invoices, AND contracts that each need their own extraction model. Best approach?",o:["Three separate endpoints","A composed model that classifies and routes","Just the layout model","Fine-tuned GPT"],a:1,w:"Composed models classify the incoming doc and route it to the right component model."},
+    {t:"p4",q:"You need tables and checkbox states from scanned docs, no domain fields. Which model?",o:["read","layout","prebuilt-invoice","custom neural"],a:1,w:"layout = read + tables, selection marks, and structure (plus optional key-value pairs)."},
+    {t:"p4",q:"Users should see clickable author-name options to narrow search results. Which index attribute enables this?",o:["sortable","facetable","retrievable","key"],a:1,w:"Facets come from facetable fields — discrete values shown as UI filter options."},
+    {t:"p4",q:"Enriched indexing output must land as TABLES for Power BI analysis. What do you configure?",o:["A second index","Knowledge store projections in the skillset","$orderby","Semantic ranking"],a:1,w:"The knowledge store persists projections (tables, JSON objects, images) from the enrichment pipeline."}
+    /*@QUIZ_END@*/
+  ];
+
+  var qbox=document.getElementById("quizbox");
+  var run=null, qscope="mix";
+  var M1TOPICS=["cap","fnd","tls","sdk","rai","xam"];
+  function scopePool(sc){
+    var idx=QUIZ.map(function(_,i){ return i; });
+    if(sc==="m1") return idx.filter(function(i){ return M1TOPICS.indexOf(QUIZ[i].t)>=0; });
+    if(sc==="p1"||sc==="p2"||sc==="p3"||sc==="p4") return idx.filter(function(i){ return QUIZ[i].t===sc; });
+    return idx;
+  }
+  function startQuiz(onlyMissed){
+    var idx;
+    if(onlyMissed&&run){ idx=run.missed.slice(); } else { idx=scopePool(qscope); }
+    for(var i=idx.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=idx[i]; idx[i]=idx[j]; idx[j]=t; }
+    if(qscope==="mix"&&!onlyMissed){ idx=idx.slice(0,25); }
+    run={order:idx,pos:0,right:0,missed:[],byTopic:{}};
+    renderQ();
+  }
+  function renderStart(){
+    var best=S.quiz.best===null?"no runs yet":"best "+S.quiz.best+"%";
+    var scopes=[["mix","Mix · 25 random"],["m1","Module 1"],["p1","GenAI path"],["p2","Agents path"],["p3","Language path"],["p4","Vision path"],["all","Everything"]];
+    var chips=scopes.map(function(s){
+      var n=s[0]==="mix"?Math.min(25,QUIZ.length):scopePool(s[0]).length;
+      if(!n) return "";
+      return '<button class="deckchip'+(qscope===s[0]?" on":"")+'" data-scope="'+s[0]+'">'+s[1]+'<span class="cnt">'+n+'</span></button>';
+    }).join("");
+    qbox.innerHTML='<div class="card" style="text-align:center;padding:30px 22px">'
+      +'<div class="eyebrow">'+QUIZ.length+' questions in the bank · instant feedback · '+best+'</div>'
+      +'<h2 class="title" style="font-size:22px">Drill it</h2>'
+      +'<p class="lede" style="margin:8px auto 14px">Pick a scope. Wrong answers show the one-line why.</p>'
+      +'<div class="deckchips" style="justify-content:center">'+chips+'</div>'
+      +'<button class="fbtn primary" id="qstart" style="font-size:15px;padding:11px 26px">Start drill →</button>'
+      +(S.quiz.best!==null?'<div style="margin-top:10px"><button class="fbtn" id="qhist" style="font-size:12.5px">clear history</button></div>':"")
+      +'</div>';
+    qbox.querySelectorAll("[data-scope]").forEach(function(b){
+      b.addEventListener("click",function(){ qscope=b.dataset.scope; renderStart(); });
+    });
+    document.getElementById("qstart").addEventListener("click",function(){ startQuiz(false); });
+    var h=document.getElementById("qhist");
+    if(h){ h.addEventListener("click",function(){ S.quiz={best:null,runs:[]}; save(); stats(); renderStart(); }); }
+  }
+  function renderQ(){
+    if(run.pos>=run.order.length){ return renderEnd(); }
+    var qi2=run.order[run.pos], q=QUIZ[qi2];
+    var html='<div class="card"><div style="display:flex;justify-content:space-between;align-items:baseline">'
+      +'<span class="qtopic"><span class="dot" style="display:inline-block;width:8px;height:8px;border-radius:2px;background:'+TOPICCOLOR[q.t]+';margin-right:6px"></span>'+TOPICNAMES[q.t]+'</span>'
+      +'<span class="qprog">'+(run.pos+1)+' / '+run.order.length+'</span></div>'
+      +'<div class="qtext">'+q.q+'</div><div id="opts">';
+    q.o.forEach(function(o,i){ html+='<button class="qopt" data-i="'+i+'"><span class="mark">'+String.fromCharCode(65+i)+'</span>'+o+'</button>'; });
+    html+='</div><div id="qfeedback"></div></div>';
+    qbox.innerHTML=html;
+    qbox.querySelectorAll(".qopt").forEach(function(b){ b.addEventListener("click",function(){ answer(parseInt(b.dataset.i,10)); }); });
+  }
+  function answer(i){
+    var qi2=run.order[run.pos], q=QUIZ[qi2];
+    var right=i===q.a;
+    run.byTopic[q.t]=run.byTopic[q.t]||{r:0,n:0}; run.byTopic[q.t].n++;
+    if(right){ run.right++; run.byTopic[q.t].r++; } else { run.missed.push(qi2); }
+    qbox.querySelectorAll(".qopt").forEach(function(b){
+      var bi=parseInt(b.dataset.i,10); b.disabled=true;
+      if(bi===q.a){ b.classList.add("correct"); }
+      else if(bi===i){ b.classList.add("wrong"); }
+      else{ b.classList.add("dim"); }
+    });
+    document.getElementById("qfeedback").innerHTML=
+      '<div class="qwhy '+(right?"ok":"no")+'"><span class="verdict">'+(right?"✓ Correct":"✗ Not quite")+'</span>'+q.w+'</div>'
+      +'<div style="text-align:right;margin-top:12px"><button class="fbtn primary" id="qnext">'+(run.pos+1>=run.order.length?"See results":"Next")+' →</button></div>';
+    document.getElementById("qnext").addEventListener("click",function(){ run.pos++; renderQ(); });
+    document.getElementById("qnext").focus();
+  }
+  function renderEnd(){
+    var pct=Math.round(100*run.right/run.order.length);
+    var isFull=run.order.length>=20;
+    if(isFull&&(S.quiz.best===null||pct>S.quiz.best)){ S.quiz.best=pct; }
+    S.quiz.runs.push({d:new Date().toISOString().slice(0,10),s:run.right,n:run.order.length}); save(); stats();
+    var html='<div class="card" style="text-align:center"><div class="eyebrow">Run complete'+(isFull?"":" · missed-only")+'</div>'
+      +'<div class="bignum">'+pct+'<small>%</small></div>'
+      +'<div style="color:var(--ink2);margin-top:4px">'+run.right+' of '+run.order.length
+      +(isFull&&S.quiz.best!==null?' · best '+S.quiz.best+'%':'')+'</div>'
+      +'<div class="resultbars" style="max-width:460px;margin:16px auto 0;text-align:left">';
+    Object.keys(run.byTopic).forEach(function(t){
+      var r=run.byTopic[t], w=Math.round(100*r.r/r.n);
+      html+='<div class="rbar"><span class="nm">'+TOPICNAMES[t]+'</span><span class="track"><span class="fill" style="width:'+w+'%;background:'+TOPICCOLOR[t]+'"></span></span><span class="val">'+r.r+'/'+r.n+'</span></div>';
+    });
+    html+='</div><div class="fbtns" style="margin-top:20px">'
+      +(run.missed.length?'<button class="fbtn" id="qmiss">Retry the '+run.missed.length+' missed</button>':"")
+      +'<button class="fbtn primary" id="qagain">Drill again</button></div></div>';
+    if(run.missed.length){
+      html+='<div class="card"><div class="eyebrow">Review the misses</div>';
+      run.missed.forEach(function(mi){
+        var q=QUIZ[mi];
+        html+='<div class="missitem"><b>'+q.q+'</b><br>→ '+q.o[q.a]+' · <span style="color:var(--muted)">'+q.w+'</span></div>';
+      });
+      html+='</div>';
+    }
+    qbox.innerHTML=html;
+    var again=document.getElementById("qagain"); if(again){ again.addEventListener("click",function(){ startQuiz(false); }); }
+    var miss=document.getElementById("qmiss"); if(miss){ miss.addEventListener("click",function(){ startQuiz(true); }); }
+  }
+  renderStart();
+
+  /* ---------- exam domains ---------- */
+  var DOMAINS=[
+    {n:"Plan & manage an Azure AI solution",lo:25,hi:30,c:"var(--s1)",covered:true,
+     s:["pick the right model: LLM / SLM / multimodal / Foundry Tools","pick services: generation · grounding · vector search · agents","infra, deployment options, CI/CD","quotas · scaling · cost · monitoring (drift, safety, grounding)","security: managed identity · private networking · keyless","responsible AI: filters · guardrails · evaluators · audit · agent oversight"]},
+    {n:"Generative AI + agentic solutions",lo:30,hi:35,c:"var(--s2)",covered:true,
+     s:["deploy + consume models · RAG · multistep workflows","evaluation: fabrications · relevance · safety","agents: roles · goals · tool schemas · memory · function calling","multi-agent orchestration · autonomous flows + approvals","prompt engineering · reflection · tracing/observability"]},
+    {n:"Computer vision solutions",lo:10,hi:15,c:"var(--s3)",covered:false,
+     s:["image + video generation · inpainting / mask edits","multimodal understanding: captions · visual Q&A · alt-text","Content Understanding pipelines (single-task, pro mode)","visual safety: unsafe content · image prompt injection · watermarks"]},
+    {n:"Text analysis solutions",lo:10,hi:15,c:"var(--s4)",covered:false,
+     s:["entities · topics · summaries · structured JSON via prompting + Tools","sentiment · tone · sensitive-content detection","translation: Translator or LLM flows","speech↔text as agent modality · custom speech · audio reasoning"]},
+    {n:"Information extraction solutions",lo:10,hi:15,c:"var(--s5)",covered:false,
+     s:["ingest + index docs, images, audio, video","semantic · hybrid · vector search for grounding","RAG ingestion + OCR · enrichment skills","Content Understanding analyzers → structured/markdown output"]}
+  ];
+  var dhost=document.getElementById("domains");
+  DOMAINS.forEach(function(d){
+    var mid=(d.lo+d.hi)/2, w=Math.round(mid/35*100);
+    var el=document.createElement("div");
+    el.className="dombar";
+    el.innerHTML='<div class="domhead"><span class="dot" style="background:'+d.c+'"></span>'
+      +'<span class="nm">'+d.n+(d.covered?' <span class="chip acc" style="font-size:9.5px;padding:1px 6px">seeded by this module</span>':"")+'</span>'
+      +'<span class="rng">'+d.lo+'–'+d.hi+'%</span><span class="caret">▶</span></div>'
+      +'<div class="domtrack"><div class="domfill" style="width:'+w+'%;background:'+d.c+'"></div></div>'
+      +'<div class="domskills"><ul class="short">'+d.s.map(function(x){ return "<li>"+x+"</li>"; }).join("")+'</ul></div>';
+    el.addEventListener("click",function(){ el.classList.toggle("open"); });
+    dhost.appendChild(el);
+  });
+
+  /* ---------- keyboard ---------- */
+  document.addEventListener("keydown",function(e){
+    if(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA") return;
+    var active=document.querySelector("section.view.active");
+    if(!active) return;
+    if(active.id==="tab-cards"){
+      if(e.key===" "){ e.preventDefault(); flip(); }
+      else if(e.key==="g"||e.key==="G"){ next(true); }
+      else if(e.key==="a"||e.key==="A"){ next(false); }
+    }
+    if(active.id==="tab-quiz"&&run&&run.pos<run.order.length){
+      var n=parseInt(e.key,10);
+      if(n>=1&&n<=4){ var b=qbox.querySelector('.qopt[data-i="'+(n-1)+'"]'); if(b&&!b.disabled){ b.click(); } }
+    }
+  });
+
+  renderTopics(); renderRoadmap();
+  stats();
+})();
+</script>
+</body></html>
